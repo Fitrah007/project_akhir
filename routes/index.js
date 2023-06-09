@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const user = require('../controllers/user');
 const rbac = require('../controllers/rbac');
+const bandara = require('../controllers/bandara');
 const enums = require('../utils/enum');
 const multer = require('multer')();
 
@@ -16,6 +17,10 @@ router.get('/', (req, res, next) => {
 
 router.post('/auth/register', user.register);
 router.get('/auth/activate/:id', user.activateAccount);
+
+router.post('/auth/bandara', bandara.create);
+router.get('/auth/bandara', bandara.getAll);
+router.get('/auth/bandara/:id_bandara', bandara.getOne);
 
 router.post('/auth/login', user.login);
 router.get('/auth/whoami', middlewares.auth, user.whoami);

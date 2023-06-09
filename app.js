@@ -3,11 +3,8 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const router = require('./routes');
-<<<<<<< HEAD
-=======
 const cors = require('cors');
 const Sentry = require('@sentry/node');
->>>>>>> 70a36bb5e90462dec5cb5cf18b127ff6fe6b5594
 
 const {
   SENTRY_DSN,
@@ -30,11 +27,6 @@ app.use(Sentry.Handlers.tracingHandler());
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
-<<<<<<< HEAD
-app.use(express.json());
-
-app.use(router);
-=======
 app.use('/images', express.static('public/images'));
 
 app.use(router);
@@ -51,6 +43,5 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   return res.status(500).json({ message: err.message });
 });
->>>>>>> 70a36bb5e90462dec5cb5cf18b127ff6fe6b5594
 
 module.exports = app;
