@@ -12,7 +12,7 @@ module.exports = {
 
     await queryInterface.bulkInsert('Users', [
       {
-        nama: 'Superadmin',
+        name: 'Superadmin',
         email: 'superadmin@mail.com',
         password: hashedPasswordSuperadmin,
         role_id: 1,
@@ -21,7 +21,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        nama: 'Admin',
+        name: 'Admin',
         email: 'admin@mail.com',
         password: hashedPasswordAdmin,
         role_id: 2,
@@ -30,7 +30,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        nama: 'User',
+        name: 'User',
         email: 'user@mail.com',
         password: hashedPasswordUser,
         role_id: 3,

@@ -9,7 +9,7 @@ const nodemailer = require('../utils/nodemailer');
 module.exports = {
   register: async (req, res) => {
     try {
-      const { name, telp, email, password } = req.body;
+      const { name, email, telp, password } = req.body;
 
       const exist = await User.findOne({ where: { email } });
       if (exist) {
@@ -22,11 +22,17 @@ module.exports = {
 
       const hashPassword = await bcrypt.hash(password, 10);
       const userData = {
-        name, telp, email, password: hashPassword
+        name,
+        telp,
+        email,
+        password: hashPassword,
+        isActivated: false,
+        role_id: null
       };
-      const employeeRole = await Role.findOne({ where: { name: 'User' } });
-      if (employeeRole) {
-        userData.role_id = employeeRole.id;
+
+      const userRole = await Role.findOne({ where: { name: 'User' } });
+      if (userRole) {
+        userData.role_id = userRole.id;
       }
       const user = await User.create(userData);
 
@@ -48,8 +54,8 @@ module.exports = {
         data: {
           id: user.id,
           name: user.name,
-          telp: user.telp,
           email: user.email,
+          telp: user.telp,
           role_id: user.role_id
         }
       });
@@ -89,8 +95,8 @@ module.exports = {
         data: {
           id: user.id,
           name: user.name,
-          telp: user.telp,
           email: user.email,
+          telp: user.telp,
           role_id: user.role_id
         }
       });
@@ -140,8 +146,8 @@ module.exports = {
       const payload = {
         id: user.id,
         name: user.name,
-        telp: user.telp,
         email: user.email,
+        telp: user.telp,
         role_id: user.role_id
       };
 
@@ -187,8 +193,8 @@ module.exports = {
       if (!user) {
         user = await User.create({
           name: data.name,
-          telp: data.telp,
           email: data.email,
+          telp: data.telp,
           role_id: 3,
           user_type: 'google'
         });
@@ -197,8 +203,8 @@ module.exports = {
       const payload = {
         id: user.id,
         name: user.name,
-        telp: user.telp,
         email: user.email,
+        telp: user.telp,
         role_id: user.role_id
       };
 
@@ -260,8 +266,8 @@ module.exports = {
         data: {
           id: user.id,
           name: user.name,
-          telp: user.telp,
           email: user.email,
+          telp: user.telp,
           profilePicture: user.profilePicture
         }
       });
