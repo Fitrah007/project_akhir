@@ -21,7 +21,11 @@ module.exports = {
         id: data.id,
         name: data.name,
         email: data.email,
-        role_id: data.role_id
+        telp: data.telp,
+        role_id: data.role_id,
+        user_type: data.user_type,
+        isActivated: data.isActivated,
+        profilePicture: data.profilePicture
       };
 
       next();
