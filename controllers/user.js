@@ -4,12 +4,11 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET_KEY } = process.env;
 const oauth2 = require('../utils/oauth2');
 const imagekit = require('../utils/imagekit');
-const nodemailer = require('../utils/nodemailer');
 
 module.exports = {
   register: async (req, res) => {
     try {
-      const { name, email, telp, password } = req.body;
+      const { name, telp, email, password } = req.body;
 
       const exist = await User.findOne({ where: { email } });
       if (exist) {
@@ -26,8 +25,7 @@ module.exports = {
         telp,
         email,
         password: hashPassword,
-        isActivated: false,
-        role_id: null
+        is_active: true
       };
 
       const userRole = await Role.findOne({ where: { name: 'User' } });
@@ -36,17 +34,8 @@ module.exports = {
       }
       const user = await User.create(userData);
 
-      // Mengirim email aktivasi
-      const activationLink = `${req.protocol}://${req.get('host')}/auth/activate/${user.id}`;
+      // Mengirim email aktivasi menggunkan otp
 
-      const html = `
-        <h1>Account Activation</h1>
-        <p>Hello ${user.name}</p>
-        <p>Please click the following link to activate your account:</p>
-        <a href="${activationLink}" style="display: inline-block; padding: 10px 20px; background-color: green; color: white; text-decoration: none;">Activate Your Account</a>
-      `;
-
-      await nodemailer.sendMail(user.email, 'Account Activation', html);
 
       return res.status(201).json({
         status: true,
@@ -54,49 +43,8 @@ module.exports = {
         data: {
           id: user.id,
           name: user.name,
-          email: user.email,
           telp: user.telp,
-          role_id: user.role_id
-        }
-      });
-    } catch (error) {
-      throw error;
-    }
-  },
-
-  activateAccount: async (req, res) => {
-    try {
-      const { id } = req.params;
-
-      const user = await User.findByPk(id);
-      if (!user) {
-        return res.status(404).json({
-          status: false,
-          message: 'User not found!',
-          data: null
-        });
-      }
-
-      if (user.isActivated) {
-        return res.status(400).json({
-          status: false,
-          message: 'Link expired, account already active!',
-          data: null
-        });
-      }
-
-      // Setel status akun menjadi "aktif"
-      user.isActivated = true;
-      await user.save();
-
-      return res.status(200).json({
-        status: true,
-        message: 'Account activated successfully',
-        data: {
-          id: user.id,
-          name: user.name,
           email: user.email,
-          telp: user.telp,
           role_id: user.role_id
         }
       });
@@ -113,7 +61,7 @@ module.exports = {
       if (!user) {
         return res.status(400).json({
           status: false,
-          message: 'credential is not valid!',
+          message: 'Invalid email or password!',
           data: null
         });
       }
@@ -135,10 +83,11 @@ module.exports = {
       }
 
       const passwordCorrect = await bcrypt.compare(password, user.password);
+
       if (!passwordCorrect) {
         return res.status(400).json({
           status: false,
-          message: 'credential is not valid!',
+          message: 'Invalid email or password!',
           data: null
         });
       }
@@ -146,8 +95,8 @@ module.exports = {
       const payload = {
         id: user.id,
         name: user.name,
-        email: user.email,
         telp: user.telp,
+        email: user.email,
         role_id: user.role_id
       };
 
@@ -167,10 +116,24 @@ module.exports = {
 
   whoami: async (req, res) => {
     try {
+      const { id } = req.user; // ID user yang sudah login
+
+      const user = await User.findByPk(id, {
+        attributes: ['name', 'nama_keluarga', 'telp', 'email']
+      });
+
+      if (!user) {
+        return res.status(404).json({
+          status: false,
+          message: 'Anda harus login terlebih dahulu!',
+          data: null
+        });
+      }
+
       return res.status(200).json({
         status: true,
-        message: 'fetch user success!',
-        data: req.user
+        message: 'Fetch user success!',
+        data: user
       });
     } catch (error) {
       throw error;
@@ -193,8 +156,8 @@ module.exports = {
       if (!user) {
         user = await User.create({
           name: data.name,
-          email: data.email,
           telp: data.telp,
+          email: data.email,
           role_id: 3,
           user_type: 'google'
         });
@@ -203,8 +166,8 @@ module.exports = {
       const payload = {
         id: user.id,
         name: user.name,
-        email: user.email,
         telp: user.telp,
+        email: user.email,
         role_id: user.role_id
       };
 
@@ -266,8 +229,8 @@ module.exports = {
         data: {
           id: user.id,
           name: user.name,
-          email: user.email,
           telp: user.telp,
+          email: user.email,
           profilePicture: user.profilePicture
         }
       });
