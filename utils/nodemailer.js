@@ -1,6 +1,5 @@
 const nodemailer = require('nodemailer');
 const { oauth2Client } = require('./oauth2');
-const ejs = require('ejs');
 
 const {
   GOOGLE_CLIENT_ID,
@@ -14,22 +13,27 @@ oauth2Client.setCredentials({ refresh_token: GOOGLE_REFRESH_TOKEN });
 
 module.exports = {
   sendMail: async (to, subject, html) => {
-    const accessToken = await oauth2Client.getAccessToken();
-    console.log({ GOOGLE_REFRESH_TOKEN });
-    console.log({ accessToken });
+    try {
+      const accessToken = await oauth2Client.getAccessToken();
+      console.log({ GOOGLE_REFRESH_TOKEN });
+      console.log({ accessToken });
 
-    const transport = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        type: 'OAuth2',
-        user: GOOGLE_SENDER_EMAIL,
-        clientId: GOOGLE_CLIENT_ID,
-        clientSecret: GOOGLE_CLIENT_SECRET,
-        refreshToken: GOOGLE_REFRESH_TOKEN,
-        accessToken: accessToken
-      }
-    });
+      const transport = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          type: 'OAuth2',
+          user: GOOGLE_SENDER_EMAIL,
+          clientId: GOOGLE_CLIENT_ID,
+          clientSecret: GOOGLE_CLIENT_SECRET,
+          refreshToken: GOOGLE_REFRESH_TOKEN,
+          accessToken: accessToken
+        }
+      });
 
-    transport.sendMail({ to, subject, html });
+      await transport.sendMail({ to, subject, html });
+      console.log('Email terkirim');
+    } catch (error) {
+      console.error('Gagal mengirim email:', error);
+    }
   }
 };

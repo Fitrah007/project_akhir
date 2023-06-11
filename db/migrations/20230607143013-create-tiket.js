@@ -9,6 +9,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      kode_tiket: {
+        type: Sequelize.STRING
+      },
       tgl_pesan: {
         type: Sequelize.DATE
       },
