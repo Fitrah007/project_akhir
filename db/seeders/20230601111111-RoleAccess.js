@@ -25,26 +25,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        role_id: 1,
-        module_id: 3,
-        is_read: true,
-        is_write: true,
-        is_update: true,
-        is_delete: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        role_id: 1,
-        module_id: 4,
-        is_read: true,
-        is_write: true,
-        is_update: true,
-        is_delete: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
         role_id: 2,
         module_id: 1,
         is_read: true,
@@ -58,27 +38,7 @@ module.exports = {
         role_id: 2,
         module_id: 2,
         is_read: true,
-        is_write: true,
-        is_update: true,
-        is_delete: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        role_id: 2,
-        module_id: 3,
-        is_read: true,
-        is_write: true,
-        is_update: true,
-        is_delete: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        role_id: 2,
-        module_id: 4,
-        is_read: true,
-        is_write: true,
+        is_write: false,
         is_update: true,
         is_delete: true,
         createdAt: new Date(),
@@ -98,27 +58,7 @@ module.exports = {
         role_id: 3,
         module_id: 2,
         is_read: true,
-        is_write: false,
-        is_update: false,
-        is_delete: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        role_id: 3,
-        module_id: 3,
-        is_read: true,
-        is_write: false,
-        is_update: false,
-        is_delete: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        role_id: 3,
-        module_id: 4,
-        is_read: true,
-        is_write: false,
+        is_write: true,
         is_update: false,
         is_delete: false,
         createdAt: new Date(),

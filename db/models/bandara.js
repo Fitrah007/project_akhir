@@ -4,13 +4,15 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Bandara extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
+      Bandara.hasMany(models.Penerbangan, {
+        foreignKey: 'id_bandara_asal',
+        as: 'bandara_asal',
+      });
+      Bandara.hasMany(models.Penerbangan, {
+        foreignKey: 'id_bandara_tujuan',
+        as: 'bandara_tujuan',
+      });
     }
   }
   Bandara.init({

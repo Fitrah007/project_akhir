@@ -25,10 +25,10 @@ module.exports = {
         type: Sequelize.STRING
       },
       ktp: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       passpor: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       negara_asal: {
         type: Sequelize.STRING

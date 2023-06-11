@@ -3,6 +3,8 @@ const router = express.Router();
 const user = require('../controllers/user');
 const rbac = require('../controllers/rbac');
 const bandara = require('../controllers/bandara');
+const booking = require('../controllers/booking');
+
 const enums = require('../utils/enum');
 const multer = require('multer')();
 
@@ -15,17 +17,24 @@ router.get('/', (req, res, next) => {
     });
 });
 
+//TODO: User
 router.post('/auth/register', user.register);
-router.get('/auth/activate/:id', user.activateAccount);
+router.post('/auth/login', user.login);
+router.get('/auth/whoami', middlewares.auth, user.whoami);
+router.get('/auth/oauth', user.googleOauth2);
+router.get('/auth/show', middlewares.auth, middlewares.rbac(enums.rbacModule.authorization, true, false, false, false), user.show);
+
+//TODO: Booking
+router.post('/penerbangan/booking', middlewares.auth, booking.pesanTiket);
+
+//TODO: Penerbangan
+router.get('/penerbangan/all', middlewares.auth, middlewares.rbac(enums.rbacModule.authorization, true, false, false, false), booking.getPenerbangan);
+
 
 router.post('/auth/bandara', bandara.create);
 router.get('/auth/bandara', bandara.getAll);
 router.get('/auth/bandara/:id_bandara', bandara.getOne);
 
-router.post('/auth/login', user.login);
-router.get('/auth/whoami', middlewares.auth, user.whoami);
-router.get('/auth/oauth', user.googleOauth2);
-router.get('/auth/show', middlewares.auth, middlewares.rbac(enums.rbacModule.authorization, true, false, false, false), user.show);
 
 //* Upload Avatar for user
 // bisa digunakan untuk upload profile atau update profile, tinggal memasukan gambar baru saja

@@ -11,20 +11,8 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        name: 'Suppliers',
-        description: 'All about Suppliers',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        name: 'Components',
-        description: 'All about Components',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        name: 'Products',
-        description: 'All about Products',
+        name: 'Booking',
+        description: 'All about Booking',
         createdAt: new Date(),
         updatedAt: new Date()
       }

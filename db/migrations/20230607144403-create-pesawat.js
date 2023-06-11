@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       nomor_pesawat: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       kapasitas: {
         type: Sequelize.INTEGER
