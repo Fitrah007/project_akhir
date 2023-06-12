@@ -1,4 +1,4 @@
-const { User, Role } = require('../db/models');
+const { User } = require('../db/models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET_KEY } = process.env;
@@ -21,7 +21,7 @@ const generateOTP = (length) => {
 module.exports = {
   register: async (req, res) => {
     try {
-      const { name, telp, email, password } = req.body;
+      const { name, email, telp, password } = req.body;
 
       const exist = await User.findOne({ where: { email } });
       if (exist) {
@@ -35,16 +35,11 @@ module.exports = {
       const hashPassword = await bcrypt.hash(password, 10);
       const userData = {
         name,
-        telp,
         email,
+        telp,
         password: hashPassword,
         is_active: false
       };
-
-      const userRole = await Role.findOne({ where: { name: 'User' } });
-      if (userRole) {
-        userData.role_id = userRole.id;
-      }
 
       const user = await User.create(userData);
 
@@ -71,16 +66,14 @@ module.exports = {
         data: {
           id: user.id,
           name: user.name,
-          telp: user.telp,
           email: user.email,
-          role_id: user.role_id
+          telp: user.telp
         }
       });
     } catch (error) {
       throw error;
     }
   },
-
 
   activate: async (req, res) => {
     try {
@@ -175,9 +168,8 @@ module.exports = {
       const payload = {
         id: user.id,
         name: user.name,
-        telp: user.telp,
         email: user.email,
-        role_id: user.role_id
+        telp: user.telp
       };
 
       const token = await jwt.sign(payload, JWT_SECRET_KEY);
@@ -236,9 +228,8 @@ module.exports = {
       if (!user) {
         user = await User.create({
           name: data.name,
-          telp: data.telp,
           email: data.email,
-          role_id: 3,
+          telp: data.telp,
           user_type: 'google'
         });
       }
@@ -246,9 +237,8 @@ module.exports = {
       const payload = {
         id: user.id,
         name: user.name,
-        telp: user.telp,
         email: user.email,
-        role_id: user.role_id
+        telp: user.telp
       };
 
       const token = await jwt.sign(payload, JWT_SECRET_KEY);
@@ -309,8 +299,8 @@ module.exports = {
         data: {
           id: user.id,
           name: user.name,
-          telp: user.telp,
           email: user.email,
+          telp: user.telp,
           profilePicture: user.profilePicture
         }
       });
