@@ -25,9 +25,6 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: ''
       },
-      role_id: {
-        type: Sequelize.INTEGER
-      },
       user_type: {
         type: Sequelize.STRING
       },
