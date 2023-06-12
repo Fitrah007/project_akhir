@@ -4,6 +4,19 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET_KEY } = process.env;
 const oauth2 = require('../utils/oauth2');
 const imagekit = require('../utils/imagekit');
+const { sendMail } = require('../utils/nodemailer');
+const moment = require('moment');
+
+const OTP_EXPIRATION_MINUTES = 5;
+
+const generateOTP = (length) => {
+  const characters = '0123456789';
+  let OTP = '';
+  for (let i = 0; i < length; i++) {
+    OTP += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return OTP;
+};
 
 module.exports = {
   register: async (req, res) => {
@@ -14,7 +27,7 @@ module.exports = {
       if (exist) {
         return res.status(400).json({
           status: false,
-          message: 'email already used!',
+          message: 'Email already used!',
           data: null
         });
       }
@@ -25,21 +38,36 @@ module.exports = {
         telp,
         email,
         password: hashPassword,
-        is_active: true
+        is_active: false
       };
 
       const userRole = await Role.findOne({ where: { name: 'User' } });
       if (userRole) {
         userData.role_id = userRole.id;
       }
+
       const user = await User.create(userData);
 
-      // Mengirim email aktivasi menggunkan otp
+      // Generate OTP
+      const otp = generateOTP(6);
+      const otpExpiration = moment().add(OTP_EXPIRATION_MINUTES, 'minutes').toDate();
+      user.otp = otp;
+      user.otp_expired = otpExpiration;
+      await user.save();
 
+      // Send activation email with OTP
+      const to = user.email;
+      const subject = 'Activation Code';
+      const html = `
+        <h2>Activation Code</h2>
+        <p>Your activation code is: ${otp}</p>
+      `;
+
+      await sendMail(to, subject, html);
 
       return res.status(201).json({
         status: true,
-        message: 'User created! Please Check Your Email for Activate',
+        message: 'User created! Please check your email to activate your account.',
         data: {
           id: user.id,
           name: user.name,
@@ -47,6 +75,58 @@ module.exports = {
           email: user.email,
           role_id: user.role_id
         }
+      });
+    } catch (error) {
+      throw error;
+    }
+  },
+
+
+  activate: async (req, res) => {
+    try {
+      const { email, otp } = req.body;
+
+      const user = await User.findOne({ where: { email } });
+      if (!user) {
+        return res.status(400).json({
+          status: false,
+          message: 'User not found!',
+          data: null
+        });
+      }
+
+      if (user.is_active) {
+        return res.status(400).json({
+          status: false,
+          message: 'User is already activated!',
+          data: null
+        });
+      }
+
+      if (user.otp !== otp) {
+        return res.status(400).json({
+          status: false,
+          message: 'Invalid OTP!',
+          data: null
+        });
+      }
+
+      const now = moment();
+      if (now.isAfter(user.otp_expired)) {
+        return res.status(400).json({
+          status: false,
+          message: 'OTP has expired!',
+          data: null
+        });
+      }
+
+      user.is_active = true;
+      await user.save();
+
+      return res.status(200).json({
+        status: true,
+        message: 'User activated successfully!',
+        data: null
       });
     } catch (error) {
       throw error;
