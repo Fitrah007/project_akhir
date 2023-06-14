@@ -1,0 +1,128 @@
+[
+  {
+    "flight_id": 1,
+    "flight_day": "Sunday",
+    "departure_base_timestamp": 1336,
+    "arrival_base_timestamp": 18537
+  },
+  {
+    "flight_id": 2,
+    "flight_day": "Sunday",
+    "departure_base_timestamp": 937,
+    "arrival_base_timestamp": 18185
+  },
+  {
+    "flight_id": 3,
+    "flight_day": "Sunday",
+    "departure_base_timestamp": 5863,
+    "arrival_base_timestamp": 20474
+  },
+  {
+    "flight_id": 4,
+    "flight_day": "Monday",
+    "departure_base_timestamp": 4388,
+    "arrival_base_timestamp": 13904
+  },
+  {
+    "flight_id": 5,
+    "flight_day": "Monday",
+    "departure_base_timestamp": 2244,
+    "arrival_base_timestamp": 15460
+  },
+  {
+    "flight_id": 6,
+    "flight_day": "Monday",
+    "departure_base_timestamp": 2678,
+    "arrival_base_timestamp": 19064
+  },
+  {
+    "flight_id": 7,
+    "flight_day": "Tuesday",
+    "departure_base_timestamp": 2921,
+    "arrival_base_timestamp": 16737
+  },
+  {
+    "flight_id": 8,
+    "flight_day": "Tuesday",
+    "departure_base_timestamp": 6024,
+    "arrival_base_timestamp": 19789
+  },
+  {
+    "flight_id": 9,
+    "flight_day": "Tuesday",
+    "departure_base_timestamp": 5199,
+    "arrival_base_timestamp": 16532
+  },
+  {
+    "flight_id": 10,
+    "flight_day": "Wednesday",
+    "departure_base_timestamp": 5336,
+    "arrival_base_timestamp": 17816
+  },
+  {
+    "flight_id": 11,
+    "flight_day": "Wednesday",
+    "departure_base_timestamp": 2567,
+    "arrival_base_timestamp": 15828
+  },
+  {
+    "flight_id": 12,
+    "flight_day": "Wednesday",
+    "departure_base_timestamp": 7192,
+    "arrival_base_timestamp": 19000
+  },
+  {
+    "flight_id": 13,
+    "flight_day": "Thursday",
+    "departure_base_timestamp": 6079,
+    "arrival_base_timestamp": 17235
+  },
+  {
+    "flight_id": 14,
+    "flight_day": "Thursday",
+    "departure_base_timestamp": 6893,
+    "arrival_base_timestamp": 14176
+  },
+  {
+    "flight_id": 15,
+    "flight_day": "Thursday",
+    "departure_base_timestamp": 2552,
+    "arrival_base_timestamp": 14217
+  },
+  {
+    "flight_id": 16,
+    "flight_day": "Friday",
+    "departure_base_timestamp": 4577,
+    "arrival_base_timestamp": 18969
+  },
+  {
+    "flight_id": 17,
+    "flight_day": "Friday",
+    "departure_base_timestamp": 3485,
+    "arrival_base_timestamp": 18149
+  },
+  {
+    "flight_id": 18,
+    "flight_day": "Friday",
+    "departure_base_timestamp": 3910,
+    "arrival_base_timestamp": 17967
+  },
+  {
+    "flight_id": 19,
+    "flight_day": "Saturday",
+    "departure_base_timestamp": 3808,
+    "arrival_base_timestamp": 16598
+  },
+  {
+    "flight_id": 20,
+    "flight_day": "Saturday",
+    "departure_base_timestamp": 6036,
+    "arrival_base_timestamp": 22075
+  },
+  {
+    "flight_id": 21,
+    "flight_day": "Saturday",
+    "departure_base_timestamp": 7056,
+    "arrival_base_timestamp": 14649
+  }
+]

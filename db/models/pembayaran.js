@@ -7,10 +7,10 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
       // define association here
-      Pembayaran.belongsTo(models.Tiket, {
-        foreignKey: 'id_tiket',
-        as: 'tiket',
-      });
+      // Pembayaran.belongsTo(models.Tiket, {
+      //   foreignKey: 'id_tiket',
+      //   as: 'tiket',
+      // });
     }
   }
   Pembayaran.init({
