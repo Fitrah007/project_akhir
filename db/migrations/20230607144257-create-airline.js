@@ -2,17 +2,23 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Maskapais', {
+    await queryInterface.createTable('Airlines', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      nama: {
+      name: {
         type: Sequelize.STRING
       },
-      negara: {
+      short_name: {
+        type: Sequelize.STRING
+      },
+      iata_code: {
+        type: Sequelize.STRING
+      },
+      icon_url: {
         type: Sequelize.STRING
       },
       createdAt: {
@@ -26,6 +32,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Maskapais');
+    await queryInterface.dropTable('Airlines');
   }
 };

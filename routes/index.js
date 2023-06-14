@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const user = require('../controllers/user');
-const bandara = require('../controllers/bandara');
+const airports = require('../controllers/airport');
 const booking = require('../controllers/booking');
-const multer = require('multer')();
+const flights = require('../controllers/flights');
 
+const multer = require('multer')();
 const middlewares = require('../utils/middlewares');
 
 router.get('/', (req, res, next) => {
@@ -28,11 +29,14 @@ router.get('/auth/show', middlewares.auth, user.show);
 router.post('/penerbangan/booking', middlewares.auth, booking.pesanTiket);
 
 //TODO: Penerbangan
-router.get('/penerbangan/all', middlewares.auth, booking.getPenerbangan);
+router.post('/flight/search/oneway', flights.oneWay);
+router.get('/flight', flights.show);
 
-router.post('/auth/bandara', bandara.create);
-router.get('/auth/bandara', bandara.getAll);
-router.get('/auth/bandara/:id_bandara', bandara.getOne);
+
+//TODO: Bandara
+router.post('/auth/airports', airports.create);
+router.get('/auth/airports', airports.getAll);
+router.get('/auth/airports/:id_bandara', airports.getOne);
 
 
 //* Upload Avatar for user

@@ -7,24 +7,24 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
       // define association here
-      Tiket.belongsTo(models.User, {
-        foreignKey: 'id_user',
-        as: 'user',
-      });
-      Tiket.belongsToMany(models.Penumpang, {
-        through: 'TiketPenumpang',
-        foreignKey: 'tiketId',
-        otherKey: 'penumpangId',
-        as: 'penumpang',
-      });
-      Tiket.belongsTo(models.Penerbangan, {
-        foreignKey: 'id_penerbangan',
-        as: 'penerbangan',
-      });
-      Tiket.hasOne(models.Pembayaran, {
-        foreignKey: 'id_tiket',
-        as: 'pembayaran',
-      });
+      // Tiket.belongsTo(models.User, {
+      //   foreignKey: 'id_user',
+      //   as: 'user',
+      // });
+      // Tiket.belongsToMany(models.Penumpang, {
+      //   through: 'TiketPenumpang',
+      //   foreignKey: 'tiketId',
+      //   otherKey: 'penumpangId',
+      //   as: 'penumpang',
+      // });
+      // Tiket.belongsTo(models.Penerbangan, {
+      //   foreignKey: 'id_penerbangan',
+      //   as: 'penerbangan',
+      // });
+      // Tiket.hasOne(models.Pembayaran, {
+      //   foreignKey: 'id_tiket',
+      //   as: 'pembayaran',
+      // });
     }
   }
   Tiket.init({
