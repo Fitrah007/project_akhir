@@ -21,13 +21,6 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
-      nama_keluarga: {
-        type: Sequelize.STRING,
-        defaultValue: ''
-      },
-      role_id: {
-        type: Sequelize.INTEGER
-      },
       user_type: {
         type: Sequelize.STRING
       },

@@ -2,38 +2,56 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Penerbangans', {
+    await queryInterface.createTable('Flights', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      tgl_berangkat: {
-        type: Sequelize.DATE
-      },
-      tgl_kembali: {
-        type: Sequelize.DATE
-      },
-      type_class: {
+      flight_number: {
         type: Sequelize.STRING
       },
-      harga: {
+      departure_airport_id: {
         type: Sequelize.INTEGER
       },
-      jam_berangkat: {
+      arrival_airport_id: {
         type: Sequelize.INTEGER
       },
-      jam_tiba: {
+      airplane_id: {
         type: Sequelize.INTEGER
       },
-      id_bandara_asal: {
+      class: {
+        type: Sequelize.STRING
+      },
+      price: {
         type: Sequelize.INTEGER
       },
-      id_bandara_tujuan: {
+      flight_date: {
+        type: Sequelize.STRING
+      },
+      departure_time: {
+        type: Sequelize.STRING
+      },
+      arrival_time: {
+        type: Sequelize.STRING
+      },
+      flight_duration: {
         type: Sequelize.INTEGER
       },
-      id_pesawat: {
+      departure_timestamp: {
+        type: Sequelize.INTEGER
+      },
+      arrival_timestamp: {
+        type: Sequelize.INTEGER
+      },
+      free_baggage: {
+        type: Sequelize.INTEGER
+      },
+      cabin_baggage: {
+        type: Sequelize.INTEGER
+      },
+      capacity: {
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -47,6 +65,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Penerbangans');
+    await queryInterface.dropTable('Flights');
   }
 };

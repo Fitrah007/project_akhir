@@ -2,30 +2,27 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('RoleAccesses', {
+    await queryInterface.createTable('Airplanes', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      role_id: {
-        type: Sequelize.INTEGER
+      model: {
+        type: Sequelize.STRING
       },
-      module_id: {
-        type: Sequelize.INTEGER
+      code: {
+        type: Sequelize.STRING
       },
-      is_read: {
-        type: Sequelize.BOOLEAN
+      airline_code: {
+        type: Sequelize.STRING
       },
-      is_write: {
-        type: Sequelize.BOOLEAN
+      seat_layout: {
+        type: Sequelize.STRING
       },
-      is_update: {
-        type: Sequelize.BOOLEAN
-      },
-      is_delete: {
-        type: Sequelize.BOOLEAN
+      seat_pitch: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -38,6 +35,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('RoleAccesses');
+    await queryInterface.dropTable('Airplanes');
   }
 };
