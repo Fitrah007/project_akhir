@@ -24,13 +24,15 @@ router.get('/auth/oauth', user.googleOauth2);
 
 //cuma buat testing aja
 router.get('/auth/show', middlewares.auth, user.show);
+router.get('/ticket', booking.showTicket);
+router.get('/flight', flights.show);
 
 //TODO: Booking
-router.post('/penerbangan/booking', middlewares.auth, booking.pesanTiket);
+router.post('/penerbangan/booking', middlewares.auth, booking.orderTicket);
+
 
 //TODO: Penerbangan
 router.post('/flight/search/oneway', flights.oneWay);
-router.get('/flight', flights.show);
 
 
 //TODO: Bandara

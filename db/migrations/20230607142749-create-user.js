@@ -21,10 +21,6 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
-      nama_keluarga: {
-        type: Sequelize.STRING,
-        defaultValue: ''
-      },
       user_type: {
         type: Sequelize.STRING
       },

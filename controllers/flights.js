@@ -88,20 +88,7 @@ module.exports = {
   },
   show: async (req, res) => {
     try {
-      const penerbangan = await Flight.findAll({
-        where: {
-          departure_airport_id: 9,
-          arrival_airport_id: 5,
-          //flight_date: req.body.flight_date
-          include: [
-            // { model: Schedule, as: 'schedules' },
-            { model: Airport, as: 'departureAirport' },
-            { model: Airport, as: 'arrivalAirport' },
-            { model: Airplane, as: 'airplane' },
-            { model: Airline, as: 'airline' },
-          ]
-        }
-      });
+      const penerbangan = await Flight.findAll();
 
       return res.status(200).json({
         status: true,

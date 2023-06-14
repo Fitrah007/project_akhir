@@ -2,38 +2,23 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Penumpangs', {
+    await queryInterface.createTable('Transactions', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      title: {
+      ticket_id: {
+        type: Sequelize.INTEGER
+      },
+      payment_method: {
         type: Sequelize.STRING
       },
-      nama: {
-        type: Sequelize.STRING
+      payment_status: {
+        type: Sequelize.BOOLEAN
       },
-      nama_keluarga: {
-        type: Sequelize.STRING
-      },
-      tgl_lahir: {
-        type: Sequelize.DATE
-      },
-      kewarganegaraan: {
-        type: Sequelize.STRING
-      },
-      ktp: {
-        type: Sequelize.STRING
-      },
-      passpor: {
-        type: Sequelize.STRING
-      },
-      negara_asal: {
-        type: Sequelize.STRING
-      },
-      berlaku_sampai: {
+      payment_date: {
         type: Sequelize.DATE
       },
       createdAt: {
@@ -47,6 +32,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Penumpangs');
+    await queryInterface.dropTable('Transactions');
   }
 };

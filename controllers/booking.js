@@ -1,21 +1,22 @@
-const { Tiket, Penerbangan, Penumpang, User, Bandara, Pesawat, Maskapai } = require('../db/models');
+const { Ticket, Passenger, User, Flight } = require('../db/models');
 
 // Generate kode tiket
 function generateKodeTiket() {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  let kodeTiket = '';
+  let ticketCode = '';
 
   for (let i = 0; i < 6; i++) {
     const randomIndex = Math.floor(Math.random() * characters.length);
-    kodeTiket += characters[randomIndex];
+    ticketCode += characters[randomIndex];
   }
 
-  return kodeTiket;
+  return ticketCode;
 }
 
 // Pesan tiket
 module.exports = {
-  pesanTiket: async (req, res) => {
+  // Pesan tiket
+  orderTicket: async (req, res) => {
     try {
       const { id } = req.user;
 
@@ -29,53 +30,56 @@ module.exports = {
         });
       }
 
-      const { jmlh_penumpang, id_penerbangan, dataPenumpang } = req.body;
+      const { total_passenger, flight_id, dataPassenger } = req.body;
 
-      // Cek apakah penerbangan tersedia
-      const penerbangan = await Penerbangan.findOne({ where: { id: id_penerbangan } });
+      // Cek apakah flight tersedia
+      const flight = await Flight.findOne({ where: { id: flight_id } });
 
-      if (!penerbangan) {
-        return res.status(404).json({ error: 'Penerbangan tidak ditemukan.' });
+      if (!flight) {
+        return res.status(404).json({ error: 'Flight tidak ditemukan.' });
       }
 
-      const tiketPromises = dataPenumpang.map(async (data) => {
-        // Tambahkan data penumpang
-        const penumpang = await Penumpang.create({
+      // Generate kode tiket
+      const ticketCode = generateKodeTiket();
+
+      const ticketPromises = dataPassenger.map(async (data) => {
+        // Tambahkan data passenger
+        const passenger = await Passenger.create({
           title: data.title,
-          nama: data.nama,
-          nama_keluarga: data.nama_keluarga,
-          tgl_lahir: new Date(data.tgl_lahir),
-          kewarganegaraan: data.kewarganegaraan,
+          name: data.name,
+          family_name: data.family_name,
+          birth: new Date(data.birth),
+          nationality: data.nationality,
           ktp: data.ktp,
           passpor: data.passpor,
-          negara_asal: data.negara_asal,
-          berlaku_sampai: new Date(data.berlaku_sampai)
+          origin_county: data.origin_county,
+          valid_until: new Date(data.valid_until)
         });
 
-        const id_penumpang = penumpang.id; // Simpan ID penumpang
+        const passenger_id = passenger.id; // Simpan ID passenger
 
-        // Hitung total harga tiket
-        const hargaTiket = jmlh_penumpang * penerbangan.harga;
+        // Hitung total price tiket
+        const ticketPrice = total_passenger * flight.price;
 
         // Buat tiket baru
-        const tiket = await Tiket.create({
-          kode_tiket: generateKodeTiket(),
-          tgl_pesan: new Date(),
-          jmlh_penumpang,
-          total_harga: hargaTiket,
-          id_user: user.id,
-          id_penumpang: id_penumpang, // Tambahkan ID penumpang
-          id_penerbangan
+        const tiket = await Ticket.create({
+          ticket_code: ticketCode,
+          order_date: new Date(),
+          total_passenger,
+          total_price: ticketPrice,
+          user_id: user.id,
+          passenger_id: passenger_id,
+          flight_id
         });
 
         return tiket;
       });
 
-      const tiket = await Promise.all(tiketPromises);
+      const tiket = await Promise.all(ticketPromises);
 
       res.status(201).json({
         status: true,
-        message: 'Tiket berhasil dipesan',
+        message: 'Ticket berhasil dipesan',
         data: tiket
       });
     } catch (error) {
@@ -83,15 +87,9 @@ module.exports = {
     }
   },
 
-  getPenerbangan: async (req, res) => {
+  showTicket: async (req, res) => {
     try {
-      const penerbangan = await Penerbangan.findAll({
-        include: [
-          { model: Bandara, as: 'bandara_asal' },
-          { model: Bandara, as: 'bandara_tujuan' },
-          { model: Pesawat, as: 'pesawat', include: [{ model: Maskapai, as: 'maskapai' }] }
-        ]
-      });
+      const penerbangan = await Ticket.findAll();
 
       return res.status(200).json({
         status: true,

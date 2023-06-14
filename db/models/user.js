@@ -6,7 +6,10 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
 
     static associate(models) {
-      
+      User.hasMany(models.Ticket, {
+        foreignKey: 'user_id',
+        as: 'tickets',
+      });
     }
   }
   User.init({
@@ -14,7 +17,6 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     telp: DataTypes.STRING,
     password: DataTypes.STRING,
-    nama_keluarga: DataTypes.STRING,
     user_type: DataTypes.STRING,
     isActivated: DataTypes.BOOLEAN,
     profilePicture: DataTypes.STRING
