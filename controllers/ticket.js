@@ -1,21 +1,25 @@
-const { Ticket, Passenger, User, Flight } = require('../db/models');
+const { Ticket, Passenger, User, Flight, Transaction } = require('../db/models');
 
 // Generate kode tiket
-function generateKodeTiket() {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  let ticketCode = '';
+async function generateKodeTiket() {
+  const currentDate = new Date();
+  const year = currentDate.getFullYear().toString().slice(-4);
+  const month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+  const day = ('0' + currentDate.getDate()).slice(-2);
 
-  for (let i = 0; i < 6; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    ticketCode += characters[randomIndex];
-  }
+  const randomString = Math.random().toString(36).substring(2, 5).toUpperCase();
+  let ticketNumber = '';
 
-  return ticketCode;
+  // Get the total count of tickets from the database
+  const ticketCount = await Ticket.count();
+
+  // Generate the ticket number with leading zeros
+  ticketNumber = ('000' + (ticketCount + 1)).slice(-3);
+
+  return `${year}${month}${day}${randomString}${ticketNumber}`;
 }
 
-// Pesan tiket
 module.exports = {
-  // Pesan tiket
   orderTicket: async (req, res) => {
     try {
       const { id } = req.user;
@@ -40,7 +44,7 @@ module.exports = {
       }
 
       // Generate kode tiket
-      const ticketCode = generateKodeTiket();
+      const ticketCode = await generateKodeTiket();
 
       const ticketPromises = dataPassenger.map(async (data) => {
         // Tambahkan data passenger
@@ -87,14 +91,62 @@ module.exports = {
     }
   },
 
+  checkoutTicket: async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const ticket = await Ticket.findOne({ where: { id } });
+      if (!ticket) {
+        return res.status(404).json({
+          status: false,
+          message: 'Ticket not found!',
+          data: null
+        });
+      }
+
+      const { payment_method, payer_name, number_payment } = req.body;
+
+      const transaction = await Transaction.create({
+        payment_method,
+        payer_name,
+        number_payment,
+        payment_status: true,
+        payment_date: new Date(),
+        ticket_id: ticket.id
+      });
+
+      return res.status(200).json({
+        status: true,
+        message: 'Success!',
+        data: transaction
+      });
+    } catch (err) {
+      res.status(500).json({ error: 'Terjadi kesalahan server', message: err.message });
+    }
+  },
+
   showTicket: async (req, res) => {
     try {
-      const penerbangan = await Ticket.findAll();
+      const ticket = await Ticket.findAll();
 
       return res.status(200).json({
         status: true,
         message: 'success',
-        data: penerbangan
+        data: ticket
+      });
+    } catch (error) {
+      res.status(500).json({ error: 'Terjadi kesalahan server', message: error.message });
+    }
+  },
+
+  showTransaction: async (req, res) => {
+    try {
+      const transaction = await Transaction.findAll();
+
+      return res.status(200).json({
+        status: true,
+        message: 'success',
+        data: transaction
       });
     } catch (error) {
       res.status(500).json({ error: 'Terjadi kesalahan server', message: error.message });

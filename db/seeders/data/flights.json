@@ -14,16 +14,17 @@
     "arrival_timestamp": 1686824121,
     "free_baggage": 13,
     "cabin_baggage": 6,
-    "capacity": 144
+    "capacity": 3,
+    "is_available": true       
   },
   {
     "flight_number": "3GH96H",
     "departure_airport_id": 2,
-    "arrival_airport_id": 3,
+    "arrival_airport_id": 1,
     "airplane_id": 2,
     "class": "Business",
     "price": 159,
-    "flight_date": "2023-07-21",
+    "flight_date": "2023-07-22",
     "departure_time": "15:21:53",
     "arrival_time": "21:51:16",
     "flight_duration": 179,
@@ -31,7 +32,8 @@
     "arrival_timestamp": 1686824121,
     "free_baggage": 13,
     "cabin_baggage": 6,
-    "capacity": 144
+    "capacity": 144,
+    "is_available": true       
   },
   {
     "flight_number": "TB67CC",
@@ -48,7 +50,8 @@
     "arrival_timestamp": 1686824121,
     "free_baggage": 13,
     "cabin_baggage": 6,
-    "capacity": 144
+    "capacity": 144,
+    "is_available": true       
   },
   {
     "flight_number": "CAA8E3",
@@ -65,7 +68,8 @@
     "arrival_timestamp": 1686824121,
     "free_baggage": 13,
     "cabin_baggage": 6,
-    "capacity": 144
+    "capacity": 144,
+    "is_available": true       
   },
   {
     "flight_number": "ELWHQ9",
@@ -82,7 +86,8 @@
     "arrival_timestamp": 1686824121,
     "free_baggage": 13,
     "cabin_baggage": 6,
-    "capacity": 144
+    "capacity": 144,
+    "is_available": true       
   },
   {
     "flight_number": "T46770",
@@ -99,7 +104,8 @@
     "arrival_timestamp": 1686824121,
     "free_baggage": 13,
     "cabin_baggage": 6,
-    "capacity": 144
+    "capacity": 144,
+    "is_available": true       
   },
   {
     "flight_number": "NLHDZI",
@@ -116,7 +122,8 @@
     "arrival_timestamp": 1686824121,
     "free_baggage": 13,
     "cabin_baggage": 6,
-    "capacity": 144
+    "capacity": 144,
+    "is_available": true       
   },
   {
     "flight_number": "2IP4VC",
@@ -133,7 +140,8 @@
     "arrival_timestamp": 1686824121,
     "free_baggage": 13,
     "cabin_baggage": 6,
-    "capacity": 144
+    "capacity": 144,
+    "is_available": true       
   },
   {
     "flight_number": "5EEIER",
@@ -150,7 +158,8 @@
     "arrival_timestamp": 1686824121,
     "free_baggage": 13,
     "cabin_baggage": 6,
-    "capacity": 144
+    "capacity": 144,
+    "is_available": true       
   },
   {
     "flight_number": "L4CC3D",
@@ -167,7 +176,8 @@
     "arrival_timestamp": 1686824121,
     "free_baggage": 13,
     "cabin_baggage": 6,
-    "capacity": 144
+    "capacity": 144,
+    "is_available": true       
   },
   {
     "flight_number": "LT2016",
@@ -184,7 +194,8 @@
     "arrival_timestamp": 1686824121,
     "free_baggage": 13,
     "cabin_baggage": 6,
-    "capacity": 144
+    "capacity": 144,
+    "is_available": true       
   },
   {
     "flight_number": "DQK5EL",
@@ -201,7 +212,8 @@
     "arrival_timestamp": 1686824121,
     "free_baggage": 13,
     "cabin_baggage": 6,
-    "capacity": 144
+    "capacity": 144,
+    "is_available": true       
   },
   {
     "flight_number": "BZ8WP2",
@@ -218,7 +230,8 @@
     "arrival_timestamp": 1686824121,
     "free_baggage": 13,
     "cabin_baggage": 6,
-    "capacity": 144
+    "capacity": 144,
+    "is_available": true       
   },
   {
     "flight_number": "IHB5WH",
@@ -235,7 +248,8 @@
     "arrival_timestamp": 1686824121,
     "free_baggage": 13,
     "cabin_baggage": 6,
-    "capacity": 144
+    "capacity": 144,
+    "is_available": true       
   },
   {
     "flight_number": "MA3ZZ1",
@@ -252,7 +266,8 @@
     "arrival_timestamp": 1686824121,
     "free_baggage": 13,
     "cabin_baggage": 6,
-    "capacity": 144
+    "capacity": 144,
+    "is_available": true       
   },
   {
     "flight_number": "A6M06Y",
@@ -269,7 +284,8 @@
     "arrival_timestamp": 1686824121,
     "free_baggage": 13,
     "cabin_baggage": 6,
-    "capacity": 144
+    "capacity": 144,
+    "is_available": true       
   },
   {
     "flight_number": "1KVRYS",
@@ -286,7 +302,8 @@
     "arrival_timestamp": 1686824121,
     "free_baggage": 13,
     "cabin_baggage": 6,
-    "capacity": 144
+    "capacity": 144,
+    "is_available": true       
   },
   {
     "flight_number": "JYO04Y",
@@ -303,7 +320,8 @@
     "arrival_timestamp": 1686824121,
     "free_baggage": 13,
     "cabin_baggage": 6,
-    "capacity": 144
+    "capacity": 144,
+    "is_available": true       
   },
   {
     "flight_number": "DTKE3L",
@@ -320,7 +338,8 @@
     "arrival_timestamp": 1686824121,
     "free_baggage": 13,
     "cabin_baggage": 6,
-    "capacity": 144
+    "capacity": 144,
+    "is_available": true       
   },
   {
     "flight_number": "GFK84Z",
@@ -337,7 +356,8 @@
     "arrival_timestamp": 1686824121,
     "free_baggage": 13,
     "cabin_baggage": 6,
-    "capacity": 144
+    "capacity": 144,
+    "is_available": true       
   },
   {
     "flight_number": "Q56M11",
@@ -354,6 +374,7 @@
     "arrival_timestamp": 1686824121,
     "free_baggage": 13,
     "cabin_baggage": 6,
-    "capacity": 144
+    "capacity": 144,
+    "is_available": true       
   }
 ]

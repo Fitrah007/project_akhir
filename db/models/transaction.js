@@ -16,6 +16,8 @@ module.exports = (sequelize, DataTypes) => {
   Transaction.init({
     ticket_id: DataTypes.INTEGER,
     payment_method: DataTypes.STRING,
+    payer_name: DataTypes.STRING,
+    number_payment: DataTypes.STRING,
     payment_status: DataTypes.BOOLEAN,
     payment_date: DataTypes.DATE
   }, {

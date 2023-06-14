@@ -191,7 +191,7 @@ module.exports = {
       const { id } = req.user; // ID user yang sudah login
 
       const user = await User.findByPk(id, {
-        attributes: ['name', 'nama_keluarga', 'telp', 'email']
+        attributes: ['name', 'telp', 'email']
       });
 
       if (!user) {

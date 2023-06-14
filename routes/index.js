@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const user = require('../controllers/user');
 const airports = require('../controllers/airport');
-const booking = require('../controllers/booking');
+const ticket = require('../controllers/ticket');
 const flights = require('../controllers/flights');
 
 const multer = require('multer')();
@@ -15,6 +15,11 @@ router.get('/', (req, res, next) => {
     });
 });
 
+//cuma buat testing aja
+router.get('/auth/show', middlewares.auth, user.show);
+router.get('/ticket', ticket.showTicket);
+router.get('/transaction', ticket.showTransaction);
+
 //TODO: User
 router.post('/auth/register', user.register);
 router.post('/activate', user.activate);
@@ -22,27 +27,21 @@ router.post('/auth/login', user.login);
 router.get('/auth/whoami', middlewares.auth, user.whoami);
 router.get('/auth/oauth', user.googleOauth2);
 
-//cuma buat testing aja
-router.get('/auth/show', middlewares.auth, user.show);
-router.get('/ticket', booking.showTicket);
-router.get('/flight', flights.show);
+//TODO: Upload Avatar for user
+router.post('/auth/upload-profile', middlewares.auth, multer.single('profilePicture'), user.uploadProfile);
 
-//TODO: Booking
-router.post('/penerbangan/booking', middlewares.auth, booking.orderTicket);
-
+//TODO: Booking and Checkout
+router.post('/flight/booking', middlewares.auth, ticket.orderTicket);
+router.post('/flight/booking/checkout/:id', middlewares.auth, ticket.checkoutTicket);
 
 //TODO: Penerbangan
+router.get('/flight', flights.show);
 router.post('/flight/search/oneway', flights.oneWay);
-
+router.post('/flight/search/twoway', flights.twoWay);
 
 //TODO: Bandara
 router.post('/auth/airports', airports.create);
 router.get('/auth/airports', airports.getAll);
-router.get('/auth/airports/:id_bandara', airports.getOne);
-
-
-//* Upload Avatar for user
-// bisa digunakan untuk upload profile atau update profile, tinggal memasukan gambar baru saja
-router.post('/auth/upload-profile', middlewares.auth, multer.single('profilePicture'), user.uploadProfile);
+router.get('/auth/airports/:airport_id', airports.getOne);
 
 module.exports = router;

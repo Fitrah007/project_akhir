@@ -44,7 +44,8 @@ module.exports = (sequelize, DataTypes) => {
     arrival_timestamp: DataTypes.INTEGER,
     free_baggage: DataTypes.INTEGER,
     cabin_baggage: DataTypes.INTEGER,
-    capacity: DataTypes.INTEGER
+    capacity: DataTypes.INTEGER,
+    is_available: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'Flight',

@@ -15,6 +15,12 @@ module.exports = {
       payment_method: {
         type: Sequelize.STRING
       },
+      payer_name: {
+        type: Sequelize.STRING
+      },
+      number_payment: {
+        type: Sequelize.STRING
+      },
       payment_status: {
         type: Sequelize.BOOLEAN
       },
