@@ -8,15 +8,17 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Transaction.belongsTo(models.Ticket, {
-        foreignKey: 'ticket_id',
+        foreignKey: 'ticket_code',
+        targetKey: 'ticket_code',
         as: 'ticket',
       });
     }
   }
   Transaction.init({
-    ticket_id: DataTypes.INTEGER,
+    ticket_code: DataTypes.STRING,
     payment_method: DataTypes.STRING,
-    payment_status: DataTypes.BOOLEAN,
+    payer_name: DataTypes.STRING,
+    number_payment: DataTypes.STRING,
     payment_date: DataTypes.DATE
   }, {
     sequelize,

@@ -54,6 +54,9 @@ module.exports = {
       capacity: {
         type: Sequelize.INTEGER
       },
+      available_passenger: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

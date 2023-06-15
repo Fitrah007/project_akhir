@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
         as: 'flight',
       });
       Ticket.hasOne(models.Transaction, {
-        foreignKey: 'ticket_id',
+        foreignKey: 'ticket_code',
+        sourceKey: 'ticket_code',
         as: 'transaction',
       });
       Ticket.belongsToMany(models.Passenger, {
@@ -31,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     order_date: DataTypes.DATE,
     total_passenger: DataTypes.INTEGER,
     total_price: DataTypes.INTEGER,
+    payment_status: DataTypes.BOOLEAN,
     user_id: DataTypes.INTEGER,
     passenger_id: DataTypes.INTEGER,
     flight_id: DataTypes.INTEGER

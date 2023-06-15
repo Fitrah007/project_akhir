@@ -1,5 +1,11 @@
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET_KEY } = process.env;
+const blacklist = [];
+
+const isTokenExpired = (exp) => {
+  const currentTime = Math.floor(Date.now() / 1000);
+  return exp < currentTime;
+};
 
 module.exports = {
   auth: async (req, res, next) => {
@@ -15,7 +21,26 @@ module.exports = {
         });
       }
 
+      const token = authorization.split(' ')[1];
+
+      if (blacklist.includes(token)) {
+        return res.status(401).json({
+          status: false,
+          message: 'Token has been revoked!',
+          data: null
+        });
+      }
+
       const data = await jwt.verify(authorization, JWT_SECRET_KEY);
+
+      if (isTokenExpired(data.exp)) {
+        return res.status(401).json({
+          status: false,
+          message: 'Token has expired!',
+          data: null
+        });
+      }
+
       req.user = {
         id: data.id,
         name: data.name,
