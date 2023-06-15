@@ -32,7 +32,7 @@ router.post('/auth/upload-profile', middlewares.auth, multer.single('profilePict
 
 //TODO: Booking and Checkout
 router.post('/flight/booking', middlewares.auth, ticket.orderTicket);
-router.post('/flight/booking/checkout/:id', middlewares.auth, ticket.checkoutTicket);
+router.post('/flight/booking/checkout', middlewares.auth, ticket.checkoutTicket);
 
 //TODO: Penerbangan
 router.get('/flight', flights.show);

@@ -21,6 +21,10 @@ module.exports = {
       total_price: {
         type: Sequelize.INTEGER
       },
+      payment_status: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
       user_id: {
         type: Sequelize.INTEGER
       },

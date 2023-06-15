@@ -23,6 +23,7 @@ module.exports = {
   orderTicket: async (req, res) => {
     try {
       const { id } = req.user;
+      const { total_passenger, flight_id, dataPassenger } = req.body;
 
       const user = await User.findOne({ where: { id } });
 
@@ -34,8 +35,6 @@ module.exports = {
         });
       }
 
-      const { total_passenger, flight_id, dataPassenger } = req.body;
-
       // Cek apakah flight tersedia
       const flight = await Flight.findOne({ where: { id: flight_id } });
 
@@ -45,6 +44,16 @@ module.exports = {
 
       // Generate kode tiket
       const ticketCode = await generateKodeTiket();
+
+      const existingTicket = await Ticket.findOne({ where: { ticket_code: ticketCode } });
+      if (existingTicket) {
+        // Jika tiket sudah ada, tampilkan respon yang sesuai
+        return res.status(409).json({
+          status: false,
+          message: 'Tiket dengan kode tersebut sudah ada',
+          data: existingTicket
+        });
+      }
 
       const ticketPromises = dataPassenger.map(async (data) => {
         // Tambahkan data passenger
@@ -92,10 +101,10 @@ module.exports = {
   },
 
   checkoutTicket: async (req, res) => {
-    try {
-      const { id } = req.params;
+    const { ticket_code, payment_method, payer_name, number_payment } = req.body;
 
-      const ticket = await Ticket.findOne({ where: { id } });
+    try {
+      const ticket = await Ticket.findOne({ where: { ticket_code } });
       if (!ticket) {
         return res.status(404).json({
           status: false,
@@ -104,16 +113,36 @@ module.exports = {
         });
       }
 
-      const { payment_method, payer_name, number_payment } = req.body;
+      // Cek status pembayaran tiket
+      if (ticket.payment_status) {
+        return res.status(400).json({
+          status: false,
+          message: 'Ticket has already been paid!',
+          data: null
+        });
+      }
 
       const transaction = await Transaction.create({
+        ticket_code,
         payment_method,
         payer_name,
         number_payment,
-        payment_status: true,
-        payment_date: new Date(),
-        ticket_id: ticket.id
+        payment_date: new Date()
       });
+
+      if (transaction) {
+        // update status pembayaran di model tiket
+        await Ticket.update({ payment_status: true }, { where: { ticket_code: transaction.ticket_code } });
+
+        // Mengurangi available_passenger di model Flight
+        const flight = await Flight.findOne({ where: { id: ticket.flight_id } });
+        if (flight) {
+          const updatedAvailablePassenger = flight.available_passenger - ticket.total_passenger;
+          console.log(updatedAvailablePassenger);
+
+          await Flight.update({ available_passenger: updatedAvailablePassenger }, { where: { id: flight.id } });
+        }
+      }
 
       return res.status(200).json({
         status: true,

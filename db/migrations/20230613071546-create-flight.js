@@ -54,8 +54,8 @@ module.exports = {
       capacity: {
         type: Sequelize.INTEGER
       },
-      is_available: {
-        type: Sequelize.BOOLEAN
+      available_passenger: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

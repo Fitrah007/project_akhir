@@ -1,6 +1,6 @@
 const { Flight, Airport, Airplane, Airline, Schedule } = require('../db/models');
-const Validator = require('fastest-validator');
-const v = new Validator();
+// const Validator = require('fastest-validator');
+// const v = new Validator();
 
 module.exports = {
   // Fungsi pencarian penerbangan satu arah
@@ -10,6 +10,7 @@ module.exports = {
       const destinationAirportId = req.body.destination_airport;
       const flightDate = req.body.flight_date;
       const flightClass = req.body.class;
+      const totalPassenger = req.body.total_passenger;
 
       // Mengecek apakah bandara asal ditemukan
       const originAirport = await Airport.findOne({ where: { id: originAirportId } });
@@ -35,8 +36,7 @@ module.exports = {
       const departureFlightFilter = {
         departure_airport_id: originAirport.id,
         arrival_airport_id: destinationAirport.id,
-        flight_date: flightDate,
-        is_available: true
+        flight_date: flightDate
       };
 
       // Jika diberikan jenis kelas penerbangan, tambahkan filternya
@@ -77,11 +77,14 @@ module.exports = {
         ]
       });
 
-      if (flights.length === 0) {
+      // Filter flights berdasarkan available_passenger
+      const filteredFlights = flights.filter(flight => flight.available_passenger >= totalPassenger);
+
+      if (filteredFlights.length === 0) {
         return res.status(404).json({
           status: true,
           message: 'Flight schedule not found!',
-          data: flights
+          data: filteredFlights
         });
       }
 
@@ -108,6 +111,7 @@ module.exports = {
       const departureDate = req.body.departure_date;
       const returnDate = req.body.return_date;
       const flightClass = req.body.class;
+      const totalPassenger = req.body.total_passenger;
 
       // Mengecek apakah bandara asal ditemukan
       const originAirport = await Airport.findOne({ where: { id: originAirportId } });
@@ -238,6 +242,18 @@ module.exports = {
           status: true,
           message: 'Return flight schedule not found!',
           data: returnFlights
+        });
+      }
+
+      // Filter flights berdasarkan available_passenger
+      const filteredDepartureFlights = departureFlights.filter(flight => flight.available_passenger >= totalPassenger);
+      const filteredReturnFlights = returnFlights.filter(flight => flight.available_passenger >= totalPassenger);
+
+      if (filteredDepartureFlights.length === 0 || filteredReturnFlights.length === 0) {
+        return res.status(404).json({
+          status: true,
+          message: 'Flight schedule not found!',
+          data: null
         });
       }
 

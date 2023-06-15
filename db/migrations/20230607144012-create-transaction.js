@@ -9,8 +9,8 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      ticket_id: {
-        type: Sequelize.INTEGER
+      ticket_code: {
+        type: Sequelize.STRING
       },
       payment_method: {
         type: Sequelize.STRING
@@ -20,9 +20,6 @@ module.exports = {
       },
       number_payment: {
         type: Sequelize.STRING
-      },
-      payment_status: {
-        type: Sequelize.BOOLEAN
       },
       payment_date: {
         type: Sequelize.DATE
