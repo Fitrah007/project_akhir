@@ -15,7 +15,7 @@
     "free_baggage": 13,
     "cabin_baggage": 6,
     "capacity": 3,
-    "is_available": true       
+    "available_passenger": 3       
   },
   {
     "flight_number": "3GH96H",
@@ -33,7 +33,7 @@
     "free_baggage": 13,
     "cabin_baggage": 6,
     "capacity": 144,
-    "is_available": true       
+    "available_passenger": 144       
   },
   {
     "flight_number": "TB67CC",
@@ -51,7 +51,7 @@
     "free_baggage": 13,
     "cabin_baggage": 6,
     "capacity": 144,
-    "is_available": true       
+    "available_passenger": 144       
   },
   {
     "flight_number": "CAA8E3",
@@ -69,7 +69,7 @@
     "free_baggage": 13,
     "cabin_baggage": 6,
     "capacity": 144,
-    "is_available": true       
+    "available_passenger": 144       
   },
   {
     "flight_number": "ELWHQ9",
@@ -87,7 +87,7 @@
     "free_baggage": 13,
     "cabin_baggage": 6,
     "capacity": 144,
-    "is_available": true       
+    "available_passenger": 144       
   },
   {
     "flight_number": "T46770",
@@ -105,7 +105,7 @@
     "free_baggage": 13,
     "cabin_baggage": 6,
     "capacity": 144,
-    "is_available": true       
+    "available_passenger": 144       
   },
   {
     "flight_number": "NLHDZI",
@@ -123,7 +123,7 @@
     "free_baggage": 13,
     "cabin_baggage": 6,
     "capacity": 144,
-    "is_available": true       
+    "available_passenger": 144       
   },
   {
     "flight_number": "2IP4VC",
@@ -141,7 +141,7 @@
     "free_baggage": 13,
     "cabin_baggage": 6,
     "capacity": 144,
-    "is_available": true       
+    "available_passenger": 144       
   },
   {
     "flight_number": "5EEIER",
@@ -159,7 +159,7 @@
     "free_baggage": 13,
     "cabin_baggage": 6,
     "capacity": 144,
-    "is_available": true       
+    "available_passenger": 144       
   },
   {
     "flight_number": "L4CC3D",
@@ -177,7 +177,7 @@
     "free_baggage": 13,
     "cabin_baggage": 6,
     "capacity": 144,
-    "is_available": true       
+    "available_passenger": 144       
   },
   {
     "flight_number": "LT2016",
@@ -195,7 +195,7 @@
     "free_baggage": 13,
     "cabin_baggage": 6,
     "capacity": 144,
-    "is_available": true       
+    "available_passenger": 144       
   },
   {
     "flight_number": "DQK5EL",
@@ -213,7 +213,7 @@
     "free_baggage": 13,
     "cabin_baggage": 6,
     "capacity": 144,
-    "is_available": true       
+    "available_passenger": 144       
   },
   {
     "flight_number": "BZ8WP2",
@@ -231,7 +231,7 @@
     "free_baggage": 13,
     "cabin_baggage": 6,
     "capacity": 144,
-    "is_available": true       
+    "available_passenger": 144       
   },
   {
     "flight_number": "IHB5WH",
@@ -249,7 +249,7 @@
     "free_baggage": 13,
     "cabin_baggage": 6,
     "capacity": 144,
-    "is_available": true       
+    "available_passenger": 144       
   },
   {
     "flight_number": "MA3ZZ1",
@@ -267,7 +267,7 @@
     "free_baggage": 13,
     "cabin_baggage": 6,
     "capacity": 144,
-    "is_available": true       
+    "available_passenger": 144       
   },
   {
     "flight_number": "A6M06Y",
@@ -285,7 +285,7 @@
     "free_baggage": 13,
     "cabin_baggage": 6,
     "capacity": 144,
-    "is_available": true       
+    "available_passenger": 144       
   },
   {
     "flight_number": "1KVRYS",
@@ -303,7 +303,7 @@
     "free_baggage": 13,
     "cabin_baggage": 6,
     "capacity": 144,
-    "is_available": true       
+    "available_passenger": 144       
   },
   {
     "flight_number": "JYO04Y",
@@ -321,7 +321,7 @@
     "free_baggage": 13,
     "cabin_baggage": 6,
     "capacity": 144,
-    "is_available": true       
+    "available_passenger": 144       
   },
   {
     "flight_number": "DTKE3L",
@@ -339,7 +339,7 @@
     "free_baggage": 13,
     "cabin_baggage": 6,
     "capacity": 144,
-    "is_available": true       
+    "available_passenger": 144       
   },
   {
     "flight_number": "GFK84Z",
@@ -357,7 +357,7 @@
     "free_baggage": 13,
     "cabin_baggage": 6,
     "capacity": 144,
-    "is_available": true       
+    "available_passenger": 144       
   },
   {
     "flight_number": "Q56M11",
@@ -375,6 +375,6 @@
     "free_baggage": 13,
     "cabin_baggage": 6,
     "capacity": 144,
-    "is_available": true       
+    "available_passenger": 144       
   }
 ]
