@@ -18,6 +18,8 @@ module.exports = (sequelize, DataTypes) => {
     telp: DataTypes.STRING,
     password: DataTypes.STRING,
     user_type: DataTypes.STRING,
+    otp: DataTypes.INTEGER,
+    otp_expired: DataTypes.DATE,
     isActivated: DataTypes.BOOLEAN,
     profilePicture: DataTypes.STRING
   }, {
