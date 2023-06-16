@@ -31,6 +31,12 @@ module.exports = {
       profilePicture: {
         type: Sequelize.STRING
       },
+      otp: {
+        type: Sequelize.INTEGER
+      },
+      otp_expired: {
+        type: Sequelize.DATE
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
