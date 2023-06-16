@@ -67,7 +67,9 @@ module.exports = {
           id: user.id,
           name: user.name,
           email: user.email,
-          telp: user.telp
+          telp: user.telp,
+          otp:user.otp,
+          expirate:user.otp_expired
         }
       });
     } catch (error) {
@@ -88,14 +90,14 @@ module.exports = {
         });
       }
 
-      if (user.is_active) {
+      if (user.isActivated) {
         return res.status(400).json({
           status: false,
           message: 'User is already activated!',
           data: null
         });
       }
-
+console.log("otp = ",user.otp)
       if (user.otp !== otp) {
         return res.status(400).json({
           status: false,
@@ -113,8 +115,8 @@ module.exports = {
         });
       }
 
-      user.is_active = true;
-      await user.save();
+      
+      await User.update({isActivated: true}, {where:{email}});
 
       return res.status(200).json({
         status: true,

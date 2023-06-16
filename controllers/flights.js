@@ -1,6 +1,6 @@
 const { Flight, Airport, Airplane, Airline, Schedule } = require('../db/models');
-const Validator = require('fastest-validator');
-const v = new Validator();
+// const Validator = require('fastest-validator');
+// const v = new Validator();
 
 module.exports = {
   oneWay: async (req, res) => {
