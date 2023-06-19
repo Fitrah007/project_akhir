@@ -27,6 +27,10 @@ router.post('/auth/login', user.login);
 router.get('/auth/whoami', middlewares.auth, user.whoami);
 router.get('/auth/oauth', user.googleOauth2);
 
+router.get('/reset-password', user.resetPasswordPage);
+router.post('/auth/forgot-password', user.forgotPassword);
+router.post('/auth/reset-password', user.resetPassword);
+
 //TODO: Upload Avatar for user
 router.post('/auth/upload-profile', middlewares.auth, multer.single('profilePicture'), user.uploadProfile);
 
