@@ -74,6 +74,9 @@ module.exports = {
             as: 'schedules',
             attributes: { exclude: ['createdAt', 'updatedAt'] }
           }
+        ],
+        order: [
+          ['price', req.body.sort === 'desc' ? 'DESC' : 'ASC']
         ]
       });
 
@@ -224,6 +227,9 @@ module.exports = {
             as: 'schedules',
             attributes: { exclude: ['createdAt', 'updatedAt'] }
           }
+        ],
+        order: [
+          ['price', req.body.sort === 'desc' ? 'DESC' : 'ASC']
         ]
       });
 
@@ -277,7 +283,11 @@ module.exports = {
 
   show: async (req, res) => {
     try {
-      const penerbangan = await Flight.findAll();
+      const penerbangan = await Flight.findAll({
+        order: [
+          ['price', req.body.sort === 'desc' ? 'DESC' : 'ASC']
+        ]
+      });
 
       return res.status(200).json({
         status: true,
