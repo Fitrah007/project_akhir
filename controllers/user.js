@@ -4,7 +4,8 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET_KEY } = process.env;
 const oauth2 = require('../utils/oauth2');
 const imagekit = require('../utils/imagekit');
-const { sendMail } = require('../utils/nodemailer');
+const {sendMail,getHtml} = require('../utils/nodemailer');
+const nodemailer = require('../utils/nodemailer');
 const moment = require('moment');
 
 const OTP_EXPIRATION_MINUTES = 5;
@@ -309,5 +310,60 @@ console.log("otp = ",user.otp)
     } catch (err) {
       throw err;
     }
-  }
+  },
+  forgotPassword: async (req, res) => {
+        const {email} = req.body;
+        
+
+        const user = await User.findOne({where: {email}});
+
+        if (user) {
+            const payload = {
+                id: user.id
+            };
+
+            const token = await jwt.sign(payload, JWT_SECRET_KEY);
+            const url = `${req.protocol}://${req.get('host')}/reset-password?token=${token}`;
+
+            const html = await getHtml('resetpassword.ejs', {name: user.name, url});
+            await sendMail(user.email, 'Reset password request', html);
+        }
+
+        return res.status(200).json({
+            status: true,
+            message: 'we will send a email if the email is registered!',
+            data: null
+        });
+    },
+
+    resetPasswordPage: (req, res) => {
+        const {token} = req.query;
+        return res.render('auth/reset-password', {message: null, token});
+    },
+
+    resetPassword: async (req, res) => {
+        try {
+            const {password, confirm_new_password} = req.body;
+
+            const {token} = req.query;
+            if (!token) {
+                return res.render('auth/reset-password', {message: 'invalid token!', token});
+            }
+            if (password != confirm_new_password) {
+                return res.render('auth/reset-password', {message: 'confirm password does not match!', token});
+            }
+            console.log(confirm_new_password)
+            const data = await jwt.verify(token, JWT_SECRET_KEY);
+
+            const hashPassword = await bcrypt.hash(password, 10);
+            const updated = await User.update({password: hashPassword}, {where: {id: data.id}});
+            if (updated[0] == 0) {
+                return res.render('auth/reset-password', {message: `reset password failed!`, token});
+            }
+
+            return res.send('success');
+        } catch (err) {
+            throw err;
+        }
+    }
 }
