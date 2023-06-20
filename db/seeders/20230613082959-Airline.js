@@ -13,10 +13,10 @@ module.exports = {
       };
     });
 
-    await queryInterface.bulkInsert('Airlines', airlines, {});
+    await queryInterface.bulkInsert('airlines', airlines, {});
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('Airlines', null, {});
+    await queryInterface.bulkDelete('airlines', null, {});
   }
 };

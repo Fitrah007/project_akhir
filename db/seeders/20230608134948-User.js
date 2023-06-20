@@ -10,7 +10,7 @@ module.exports = {
     const hashedPasswordAdmin = await bcrypt.hashSync('admin123', saltRounds);
     const hashedPasswordUser = await bcrypt.hashSync('user123', saltRounds);
 
-    await queryInterface.bulkInsert('Users', [
+    await queryInterface.bulkInsert('users', [
       {
         name: 'Superadmin',
         email: 'superadmin@mail.com',
@@ -39,6 +39,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('Users', null, {});
+    await queryInterface.bulkDelete('users', null, {});
   }
 };

@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   class Flight extends Model {
 
     static associate(models) {
-      // define association here
+      //define association here
       Flight.belongsTo(models.Airport, {
         foreignKey: 'departure_airport_id',
         as: 'departureAirport',
@@ -19,8 +19,13 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'airplane_id',
         as: 'airplane',
       });
+      Flight.belongsTo(models.Airline, {
+        foreignKey: 'airline_id',
+        as: 'airline',
+      });
       Flight.hasMany(models.Schedule, {
-        foreignKey: 'flight_id',
+        foreignKey: 'flight_number',
+        sourceKey: 'flight_number',
         as: 'schedules',
       });
       Flight.belongsToMany(models.Ticket, {
@@ -33,10 +38,13 @@ module.exports = (sequelize, DataTypes) => {
   Flight.init({
     flight_number: DataTypes.STRING,
     departure_airport_id: DataTypes.INTEGER,
-    arrival_airport_id: DataTypes.INTEGER,
     airplane_id: DataTypes.INTEGER,
+    airline_id: DataTypes.INTEGER,
+    arrival_airport_id: DataTypes.INTEGER,
     class: DataTypes.STRING,
     price: DataTypes.INTEGER,
+    departure_terminal_name: DataTypes.STRING,
+    arrival_terminal_name: DataTypes.STRING,
     flight_date: DataTypes.STRING,
     departure_time: DataTypes.STRING,
     arrival_time: DataTypes.STRING,
@@ -50,6 +58,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Flight',
+    tableName: 'flights',
   });
   return Flight;
 };

@@ -77,65 +77,6 @@ module.exports = {
       throw error;
     }
   },
-  resendOtp: async (req, res) => {
-    const { email } = req.body;
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      return res.status(400).json({
-        status: false,
-        message: "Email not found",
-        data: null,
-      });
-    }
-
-    const waitingPeriodMinutes = 3; // Set the waiting period in minutes
-    const waitingPeriodMillis = waitingPeriodMinutes * 60 * 1000; // Convert to milliseconds
-
-    const otpRecord = await User.findOne({ where: { email } });
-
-    if (otpRecord) {
-      const lastSentAt = otpRecord.updatedAt;
-      const currentTime = new Date();
-      const elapsedTime = currentTime - lastSentAt;
-
-      if (elapsedTime < waitingPeriodMillis) {
-        const remainingTime = waitingPeriodMillis - elapsedTime;
-        const remainingTimeMinutes = Math.ceil(remainingTime / (60 * 1000));
-
-        return res.status(429).json({
-          status: false,
-          message: `Please wait ${remainingTimeMinutes} minutes before resending the OTP.`,
-          data: null,
-        });
-      }
-    }
-
-    const otp = generateOTP(6);
-    const otpExpiration = moment().add(OTP_EXPIRATION_MINUTES, 'minutes').toDate();
-    await User.update(
-      {
-        otp: otp,
-        otp_expired: otpExpiration, // Update the last sent timestamp
-      },
-      { where: { email } }
-    );
-
-    const to = email;
-    const subject = 'Activation Code';
-    const html = `
-      <h2>Activation Code</h2>
-      <p>Your activation code is: ${otp}</p>
-    `;
-
-    await sendMail(to, subject, html);
-
-    return res.status(200).json({
-      status: true,
-      message: "OTP verification has been resent!",
-      data: null,
-    });
-  },
 
   activate: async (req, res) => {
     try {
