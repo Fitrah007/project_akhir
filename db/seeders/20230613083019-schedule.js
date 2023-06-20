@@ -13,10 +13,10 @@ module.exports = {
       };
     });
 
-    await queryInterface.bulkInsert('Schedules', schedules, {});
+    await queryInterface.bulkInsert('schedules', schedules, {});
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('Schedules', null, {});
+    await queryInterface.bulkDelete('schedules', null, {});
   }
 };

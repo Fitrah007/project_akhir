@@ -46,26 +46,27 @@ module.exports = {
 
       const flights = await Flight.findAll({
         where: departureFlightFilter,
-        attributes: { exclude: ['createdAt', 'updatedAt'] },
+        attributes: { exclude: ['id', 'airplane_id', 'airline_id', 'departure_airport_id', 'arrival_airport_id', 'departure_timestamp', 'arrival_timestamp', 'createdAt', 'updatedAt'] },
         include: [
-          { model: Airport,
+          {
+            model: Airport,
             as: 'departureAirport',
-            attributes: { exclude: ['createdAt', 'updatedAt'] }
+            attributes: { exclude: ['id','createdAt', 'updatedAt'] }
           },
           {
             model: Airport,
             as: 'arrivalAirport',
-            attributes: { exclude: ['createdAt', 'updatedAt'] }
+            attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
           },
           {
             model: Airplane,
             as: 'airplane',
-            attributes: { exclude: ['createdAt', 'updatedAt'] },
+            attributes: { exclude: ['id', 'createdAt', 'updatedAt'] },
             include: [
               {
                 model: Airline,
                 as: 'airline',
-                attributes: { exclude: ['createdAt', 'updatedAt'] }
+                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
               }
             ]
           },
@@ -87,7 +88,7 @@ module.exports = {
         return res.status(404).json({
           status: true,
           message: 'Flight schedule not found!',
-          data: filteredFlights
+          data: null
         });
       }
 
@@ -151,34 +152,29 @@ module.exports = {
       // Mencari jadwal penerbangan keberangkatan
       const departureFlights = await Flight.findAll({
         where: departureFlightFilter,
-        attributes: { exclude: ['createdAt', 'updatedAt'] },
+        attributes: { exclude: ['id', 'airplane_id', 'airline_id', 'departure_airport_id', 'arrival_airport_id', 'departure_timestamp', 'arrival_timestamp', 'createdAt', 'updatedAt'] },
         include: [
           {
             model: Airport,
             as: 'departureAirport',
-            attributes: { exclude: ['createdAt', 'updatedAt'] }
+            attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
           },
           {
             model: Airport,
             as: 'arrivalAirport',
-            attributes: { exclude: ['createdAt', 'updatedAt'] }
+            attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
           },
           {
             model: Airplane,
             as: 'airplane',
-            attributes: { exclude: ['createdAt', 'updatedAt'] },
+            attributes: { exclude: ['id', 'createdAt', 'updatedAt'] },
             include: [
               {
                 model: Airline,
                 as: 'airline',
-                attributes: { exclude: ['createdAt', 'updatedAt'] }
+                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
               }
             ]
-          },
-          {
-            model: Schedule,
-            as: 'schedules',
-            attributes: { exclude: ['createdAt', 'updatedAt'] }
           }
         ]
       });
@@ -198,35 +194,30 @@ module.exports = {
       // Mencari jadwal penerbangan kepulangan
       const returnFlights = await Flight.findAll({
         where: returnFlightFilter,
-        attributes: { exclude: ['createdAt', 'updatedAt'] },
+        attributes: { exclude: ['id', 'airplane_id', 'airline_id', 'departure_airport_id', 'arrival_airport_id', 'departure_timestamp', 'arrival_timestamp', 'createdAt', 'updatedAt'] },
         include: [
           {
             model: Airport,
             as: 'departureAirport',
-            attributes: { exclude: ['createdAt', 'updatedAt'] }
+            attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
           },
           {
             model: Airport,
             as: 'arrivalAirport',
-            attributes: { exclude: ['createdAt', 'updatedAt'] }
+            attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
           },
           {
             model: Airplane,
             as: 'airplane',
-            attributes: { exclude: ['createdAt', 'updatedAt'] },
+            attributes: { exclude: ['id', 'createdAt', 'updatedAt'] },
             include: [
               {
                 model: Airline,
                 as: 'airline',
-                attributes: { exclude: ['createdAt', 'updatedAt'] }
+                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
               }
             ]
           },
-          {
-            model: Schedule,
-            as: 'schedules',
-            attributes: { exclude: ['createdAt', 'updatedAt'] }
-          }
         ],
         order: [
           ['price', req.body.sort === 'desc' ? 'DESC' : 'ASC']

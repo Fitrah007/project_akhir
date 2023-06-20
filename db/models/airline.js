@@ -11,6 +11,17 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: 'iata_code',
         as: 'airplanes',
       });
+
+      Airline.hasMany(models.Schedule, {
+        foreignKey: 'airline_code',
+        sourceKey: 'iata_code',
+        as: 'schedules',
+      });
+
+      Airline.hasMany(models.Flight, {
+        foreignKey: 'airline_id',
+        as: 'flights',
+      });
     }
   }
   Airline.init({
@@ -21,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Airline',
+    tableName: 'airlines',
   });
   return Airline;
 };

@@ -9,9 +9,22 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'departure_airport_id',
         as: 'departureFlights',
       });
+
       Airport.hasMany(models.Flight, {
         foreignKey: 'arrival_airport_id',
         as: 'arrivalFlights',
+      });
+
+      Airport.hasMany(models.Schedule, {
+        foreignKey: 'departure_airport',
+        sourceKey: 'iata_code',
+        as: 'departureSchedules',
+      });
+
+      Airport.hasMany(models.Schedule, {
+        foreignKey: 'arrival_airport',
+        sourceKey: 'iata_code',
+        as: 'arrivalSchedules',
       });
     }
   }
@@ -23,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Airport',
+    tableName: 'airports',
   });
   return Airport;
 };
