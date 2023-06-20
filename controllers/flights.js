@@ -69,11 +69,6 @@ module.exports = {
                 attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
               }
             ]
-          },
-          {
-            model: Schedule,
-            as: 'schedules',
-            attributes: { exclude: ['createdAt', 'updatedAt'] }
           }
         ],
         order: [
