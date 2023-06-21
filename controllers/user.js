@@ -51,13 +51,17 @@ module.exports = {
       user.otp_expired = otpExpiration;
       await user.save();
 
-      // Send activation email with OTP
-      const to = user.email;
-      const subject = 'Activation Code';
-      const html = `
-        <h2>Activation Code</h2>
-        <p>Your activation code is: ${otp}</p>
-      `;
+     // Mengirim email aktivasi
+     const activationLink = `${req.protocol}://${req.get('host')}/auth/activate/${user.id}`;
+
+     // Send activation email with OTP
+     const to = user.email;
+     const subject = 'Activation Code';
+     const html = `
+       <h2>Activation Code</h2>
+       <p>Your activation code is: ${otp}</p>
+       <a href="${activationLink}" style="display: inline-block; padding: 10px 20px; background-color: green; color: white; text-decoration: none;">Click Here to Activate Your Account</a>
+     `;
 
       await sendMail(to, subject, html);
 
@@ -81,6 +85,17 @@ module.exports = {
   activate: async (req, res) => {
     try {
       const { email, otp } = req.body;
+
+      const { id } = req.params;
+
+      const userId = await User.findByPk(id);
+      if (!userId) {
+        return res.status(404).json({
+          status: false,
+          message: 'User not found!',
+          data: null
+        });
+      }
 
       const user = await User.findOne({ where: { email } });
       if (!user) {
