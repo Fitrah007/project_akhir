@@ -1,4 +1,4 @@
-const { Ticket, Passenger, User, Flight, Transaction } = require('../db/models');
+const { Ticket, Passenger, User, Flight, Transaction, Notification } = require('../db/models');
 
 // Generate kode tiket
 async function generateKodeTiket() {
@@ -90,6 +90,7 @@ module.exports = {
 
       const tiket = await Promise.all(ticketPromises);
 
+
       res.status(201).json({
         status: true,
         message: 'Ticket berhasil dipesan',
@@ -101,9 +102,11 @@ module.exports = {
   },
 
   checkoutTicket: async (req, res) => {
+    const {id} = req.user;
     const { ticket_code, payment_method, payer_name, number_payment } = req.body;
 
     try {
+      const user = await User.findOne({where:{id}})
       const ticket = await Ticket.findOne({ where: { ticket_code } });
       if (!ticket) {
         return res.status(404).json({
@@ -143,6 +146,22 @@ module.exports = {
           await Flight.update({ available_passenger: updatedAvailablePassenger }, { where: { id: flight.id } });
         }
       }
+
+      const notification = await Notification.create({
+        title:"Checkout berhasil",
+        description:"Selamat anda telah berhasil melakukan checkout",
+        user_id: user.id,
+        is_read: false
+      })
+
+      const to = user.email;
+      const subject = 'Checkout success';
+      const html = `
+        <h2>Checkout success</h2>
+        <p>Your Ticket code is: ${ticket_code}</p>
+      `;
+
+      await sendMail(to, subject, html);
 
       return res.status(200).json({
         status: true,
