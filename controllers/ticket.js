@@ -6,16 +6,12 @@ async function generateKodeTiket() {
   const year = currentDate.getFullYear().toString().slice(-4);
   const month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
   const day = ('0' + currentDate.getDate()).slice(-2);
-
   const randomString = Math.random().toString(36).substring(2, 5).toUpperCase();
   let ticketNumber = '';
-
   // Get the total count of tickets from the database
   const ticketCount = await Ticket.count();
-
   // Generate the ticket number with leading zeros
   ticketNumber = ('000' + (ticketCount + 1)).slice(-3);
-
   return `${year}${month}${day}${randomString}${ticketNumber}`;
 }
 

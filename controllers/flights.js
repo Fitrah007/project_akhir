@@ -269,10 +269,14 @@ module.exports = {
 
   show: async (req, res) => {
     try {
+      const {page = 1, per_page = 10} = req.query
+      const offset = (page -1 )* per_page
       const penerbangan = await Flight.findAll({
         order: [
           ['price', req.body.sort === 'desc' ? 'DESC' : 'ASC']
-        ]
+        ],
+        limit: per_page,
+        offset: offset
       });
 
       return res.status(200).json({
