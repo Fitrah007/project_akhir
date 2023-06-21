@@ -4,6 +4,7 @@ const user = require('../controllers/user');
 const airports = require('../controllers/airport');
 const ticket = require('../controllers/ticket');
 const flights = require('../controllers/flights');
+const airplane = require('../controllers/airplane');
 
 const multer = require('multer')();
 const middlewares = require('../utils/middlewares');
@@ -45,8 +46,11 @@ router.post('/flight/search/oneway', flights.oneWay);
 router.post('/flight/search/twoway', flights.twoWay);
 
 //TODO: Bandara
-router.post('/auth/airports', airports.create);
-router.get('/auth/airports', airports.getAll);
-router.get('/auth/airports/:airport_id', airports.getOne);
+router.get('/airports', airports.getAll);
+router.get('/airports/:airport_id', airports.getOne);
+
+//TODO: Pesawat
+router.get('/airplanes', airplane.getAll);
+router.get('/airplanes/:airplane_id', airplane.getOne);
 
 module.exports = router;
