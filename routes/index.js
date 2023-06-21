@@ -26,6 +26,7 @@ router.post('/activate', user.activate);
 // router.post('/resend-otp', user.resendOtp);
 router.post('/auth/login', user.login);
 router.get('/auth/whoami', middlewares.auth, user.whoami);
+router.put('/auth/user', middlewares.auth, user.updateUser);
 router.get('/auth/oauth', user.googleOauth2);
 
 router.get('/reset-password', user.resetPasswordPage);
