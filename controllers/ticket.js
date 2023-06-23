@@ -6,16 +6,12 @@ async function generateKodeTiket() {
   const year = currentDate.getFullYear().toString().slice(-4);
   const month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
   const day = ('0' + currentDate.getDate()).slice(-2);
-
   const randomString = Math.random().toString(36).substring(2, 5).toUpperCase();
   let ticketNumber = '';
-
   // Get the total count of tickets from the database
   const ticketCount = await Ticket.count();
-
   // Generate the ticket number with leading zeros
   ticketNumber = ('000' + (ticketCount + 1)).slice(-3);
-
   return `${year}${month}${day}${randomString}${ticketNumber}`;
 }
 
@@ -23,7 +19,7 @@ module.exports = {
   orderTicket: async (req, res) => {
     try {
       const { id } = req.user;
-      const { total_passenger, flight_id, dataPassenger } = req.body;
+      const { total_passenger, flight_id, return_flight_id, dataPassenger, is_roundtrip } = req.body;
 
       const user = await User.findOne({ where: { id } });
 
@@ -40,6 +36,16 @@ module.exports = {
 
       if (!flight) {
         return res.status(404).json({ error: 'Flight tidak ditemukan.' });
+      }
+
+      // Cek apakah return flight tersedia jika is_roundtrip bernilai true
+      let returnFlight;
+      if (is_roundtrip) {
+        returnFlight = await Flight.findOne({ where: { id: return_flight_id } });
+
+        if (!returnFlight) {
+          return res.status(404).json({ error: 'Return flight tidak ditemukan.' });
+        }
       }
 
       // Generate kode tiket
@@ -72,7 +78,10 @@ module.exports = {
         const passenger_id = passenger.id; // Simpan ID passenger
 
         // Hitung total price tiket
-        const ticketPrice = total_passenger * flight.price;
+        let ticketPrice = total_passenger * flight.price;
+        if (is_roundtrip) {
+          ticketPrice += total_passenger * returnFlight.price;
+        }
 
         // Buat tiket baru
         const tiket = await Ticket.create({
@@ -82,14 +91,15 @@ module.exports = {
           total_price: ticketPrice,
           user_id: user.id,
           passenger_id: passenger_id,
-          flight_id
+          flight_id,
+          return_flight_id: is_roundtrip ? return_flight_id : null,
+          is_roundtrip
         });
 
         return tiket;
       });
 
       const tiket = await Promise.all(ticketPromises);
-
 
       res.status(201).json({
         status: true,
@@ -147,21 +157,21 @@ module.exports = {
         }
       }
 
-      const notification = await Notification.create({
-        title:"Checkout berhasil",
-        description:"Selamat anda telah berhasil melakukan checkout",
-        user_id: user.id,
-        is_read: false
-      })
+      // const notification = await Notification.create({
+      //   title:"Checkout berhasil",
+      //   description:"Selamat anda telah berhasil melakukan checkout",
+      //   user_id: user.id,
+      //   is_read: false
+      // })
 
-      const to = user.email;
-      const subject = 'Checkout success';
-      const html = `
-        <h2>Checkout success</h2>
-        <p>Your Ticket code is: ${ticket_code}</p>
-      `;
+      // const to = user.email;
+      // const subject = 'Checkout success';
+      // const html = `
+      //   <h2>Checkout success</h2>
+      //   <p>Your Ticket code is: ${ticket_code}</p>
+      // `;
 
-      await sendMail(to, subject, html);
+      // await sendMail(to, subject, html);
 
       return res.status(200).json({
         status: true,

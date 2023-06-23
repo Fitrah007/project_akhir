@@ -12,6 +12,9 @@ module.exports = {
       const flightClass = req.body.class;
       const totalPassenger = req.body.total_passenger;
 
+      const { page = 1, per_page = 10 } = req.query;
+      const offset = (page - 1) * per_page;
+
       // Mengecek apakah bandara asal ditemukan
       const originAirport = await Airport.findOne({ where: { id: originAirportId } });
       if (!originAirport) {
@@ -73,7 +76,9 @@ module.exports = {
         ],
         order: [
           ['price', req.body.sort === 'desc' ? 'DESC' : 'ASC']
-        ]
+        ],
+        limit: per_page,
+        offset: offset
       });
 
       // Filter flights berdasarkan available_passenger
@@ -111,6 +116,9 @@ module.exports = {
       const returnDate = req.body.return_date;
       const flightClass = req.body.class;
       const totalPassenger = req.body.total_passenger;
+
+      const { page = 1, per_page = 10 } = req.query;
+      const offset = (page - 1) * per_page;
 
       // Mengecek apakah bandara asal ditemukan
       const originAirport = await Airport.findOne({ where: { id: originAirportId } });
@@ -216,7 +224,9 @@ module.exports = {
         ],
         order: [
           ['price', req.body.sort === 'desc' ? 'DESC' : 'ASC']
-        ]
+        ],
+        limit: per_page,
+        offset: offset
       });
 
       // Jika tidak ada jadwal penerbangan keberangkatan
@@ -269,10 +279,14 @@ module.exports = {
 
   show: async (req, res) => {
     try {
+      const {page = 1, per_page = 10} = req.query
+      const offset = (page -1 )* per_page
       const penerbangan = await Flight.findAll({
         order: [
           ['price', req.body.sort === 'desc' ? 'DESC' : 'ASC']
-        ]
+        ],
+        limit: per_page,
+        offset: offset
       });
 
       return res.status(200).json({

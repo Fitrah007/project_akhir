@@ -13,13 +13,18 @@ module.exports = (sequelize, DataTypes) => {
       });
       Ticket.belongsTo(models.Flight, {
         foreignKey: 'flight_id',
-        as: 'flight',
+        as: 'flights',
+      });
+      Ticket.belongsTo(models.Flight, {
+        foreignKey: 'return_flight_id',
+        as: 'returnFlights',
       });
       Ticket.hasOne(models.Transaction, {
         foreignKey: 'ticket_code',
         sourceKey: 'ticket_code',
-        as: 'transaction',
+        as: 'transactions',
       });
+
       Ticket.belongsToMany(models.Passenger, {
         through: 'TicketPassenger',
         foreignKey: 'ticket_id',
@@ -35,7 +40,9 @@ module.exports = (sequelize, DataTypes) => {
     payment_status: DataTypes.BOOLEAN,
     user_id: DataTypes.INTEGER,
     passenger_id: DataTypes.INTEGER,
-    flight_id: DataTypes.INTEGER
+    flight_id: DataTypes.INTEGER,
+    return_flight_id: DataTypes.INTEGER,
+    is_roundtrip: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'Ticket',
