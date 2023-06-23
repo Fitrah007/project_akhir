@@ -1,9 +1,9 @@
-const {Notification} = require('../db/models');
+const { Notification } = require('../db/models');
 
 module.exports = {
     index: async (req, res) => {
         try {
-            const notifications = await Notification.findAll({where: {user_id: req.user.id}});
+            const notifications = await Notification.findAll({ where: { user_id: req.user.id } });
 
             return res.status(200).json({
                 status: true,
@@ -17,8 +17,8 @@ module.exports = {
 
     readNotif: async (req, res) => {
         try {
-            const {id} = req.params;
-            await Notification.update({is_read: true}, {where: {id, user_id: req.user.id}});
+            const { id } = req.params;
+            await Notification.update({ is_read: true }, { where: { id, user_id: req.user.id } });
 
             return res.status(200).json({
                 status: true,
@@ -28,5 +28,19 @@ module.exports = {
         } catch (err) {
             throw err;
         }
-    }
+    },
+
+    show: async (req, res) => {
+        try {
+            const notif = await Notification.findAll();
+
+            return res.status(200).json({
+                status: true,
+                message: 'success',
+                data: notif
+            });
+        } catch (err) {
+            throw err;
+        }
+    },
 };

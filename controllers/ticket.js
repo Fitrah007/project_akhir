@@ -1,4 +1,6 @@
-const { Ticket, Passenger, User, Flight, Transaction, Notification } = require('../db/models');
+const { Ticket, Passenger, User, Flight, Transaction } = require('../db/models');
+const { sendNotif } = require('../utils/notifications');
+const moment = require('moment');
 
 // Generate kode tiket
 async function generateKodeTiket() {
@@ -101,6 +103,28 @@ module.exports = {
 
       const tiket = await Promise.all(ticketPromises);
 
+      // Set waktu pembayaran
+      const paymentDueDate = moment().add(3, 'days');
+
+      // Kirim notifikasi konfirmasi pemesanan
+      const notificationMessage = `Order with Booking Code ${ticketCode} successfully placed. Payment must be completed by ${paymentDueDate.format('YYYY-MM-DD')}.`;
+
+      sendNotif([{
+        title: 'Order Confirmation',
+        description: notificationMessage,
+        user_id: user.id,
+      }]);
+
+      // Jadwal pengiriman notifikasi pengingat pembayaran
+      setTimeout(() => {
+        const paymentReminderMessage = `Reminder: Your payment for the ticket is due on ${paymentDueDate.format('YYYY-MM-DD')}.`;
+        sendNotif([{
+          title: 'Payment Reminder',
+          description: paymentReminderMessage,
+          user_id: user.id,
+        }]);
+      }, 3 * 24 * 60 * 60 * 1000); // 3 hari dalam milidetik
+
       res.status(201).json({
         status: true,
         message: 'Ticket berhasil dipesan',
@@ -112,11 +136,11 @@ module.exports = {
   },
 
   checkoutTicket: async (req, res) => {
-    const {id} = req.user;
+    const { id } = req.user;
     const { ticket_code, payment_method, payer_name, number_payment } = req.body;
 
     try {
-      const user = await User.findOne({where:{id}})
+      const user = await User.findOne({ where: { id } })
       const ticket = await Ticket.findOne({ where: { ticket_code } });
       if (!ticket) {
         return res.status(404).json({
@@ -143,12 +167,13 @@ module.exports = {
         payment_date: new Date()
       });
 
+      const flight = await Flight.findOne({ where: { id: ticket.flight_id } });
+
       if (transaction) {
         // update status pembayaran di model tiket
         await Ticket.update({ payment_status: true }, { where: { ticket_code: transaction.ticket_code } });
 
         // Mengurangi available_passenger di model Flight
-        const flight = await Flight.findOne({ where: { id: ticket.flight_id } });
         if (flight) {
           const updatedAvailablePassenger = flight.available_passenger - ticket.total_passenger;
           console.log(updatedAvailablePassenger);
@@ -156,6 +181,31 @@ module.exports = {
           await Flight.update({ available_passenger: updatedAvailablePassenger }, { where: { id: flight.id } });
         }
       }
+
+      // Kirim notifikasi konfirmasi pembayaran
+      const paymentConfirmationMessage = `Payment confirmed for ticket ${ticket_code}.`;
+
+      sendNotif([{
+        title: 'Payment Confirmation',
+        description: paymentConfirmationMessage,
+        user_id: user.id,
+      }]);
+
+      // Jadwal pengiriman notifikasi pengingat 1 hari sebelum keberangkatan penerbangan
+      const departureDate = moment(flight.departure_date).subtract(1, 'day');
+      const reminderMessage = `Reminder: Your flight departs on ${departureDate.format('YYYY-MM-DD')}.`;
+      // Menghitung selisih waktu hingga keberangkatan
+      const reminderTimeout = departureDate.valueOf() - Date.now();
+
+      setTimeout(() => {
+        sendNotif([
+          {
+            title: 'Flight Departure Reminder',
+            description: reminderMessage,
+            user_id: user.id,
+          },
+        ]);
+      }, reminderTimeout);
 
       // const notification = await Notification.create({
       //   title:"Checkout berhasil",

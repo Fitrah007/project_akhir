@@ -5,9 +5,11 @@ const airports = require('../controllers/airport');
 const ticket = require('../controllers/ticket');
 const flights = require('../controllers/flights');
 const airplane = require('../controllers/airplane');
+const notifications = require('../controllers/notification');
 
 const multer = require('multer')();
 const middlewares = require('../utils/middlewares');
+const notification = require('../controllers/notification');
 
 router.get('/', (req, res, next) => {
   res.status(200)
@@ -30,9 +32,13 @@ router.get('/auth/whoami', middlewares.auth, user.whoami);
 router.put('/auth/user', middlewares.auth, user.updateUser);
 router.get('/auth/oauth', user.googleOauth2);
 
+//TODO: reset password
 router.get('/reset-password', user.resetPasswordPage);
 router.post('/auth/forgot-password', user.forgotPassword);
 router.post('/auth/reset-password', user.resetPassword);
+
+//TODO: notif
+router.get('/notifications', notification.show);
 
 //TODO: Upload Avatar for user
 router.post('/auth/upload-profile', middlewares.auth, multer.single('profilePicture'), user.uploadProfile);
