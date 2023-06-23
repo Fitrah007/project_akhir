@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       Transaction.belongsTo(models.Ticket, {
         foreignKey: 'ticket_code',
         targetKey: 'ticket_code',
-        as: 'ticket',
+        as: 'tickets',
       });
     }
   }

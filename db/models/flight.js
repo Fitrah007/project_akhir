@@ -33,6 +33,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'flight_id',
         as: 'tickets',
       });
+      Flight.belongsToMany(models.Ticket, {
+        through: 'TicketFlight',
+        foreignKey: 'return_flight_id',
+        as: 'returnTickets',
+      });
     }
   }
   Flight.init({

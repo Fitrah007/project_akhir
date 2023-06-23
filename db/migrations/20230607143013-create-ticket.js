@@ -34,6 +34,13 @@ module.exports = {
       flight_id: {
         type: Sequelize.INTEGER
       },
+      return_flight_id: {
+        type: Sequelize.INTEGER
+      },
+      is_roundtrip: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
