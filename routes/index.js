@@ -23,8 +23,8 @@ router.get('/transaction', ticket.showTransaction);
 
 //TODO: User
 router.post('/auth/register', user.register);
-router.post('/activate', user.activate);
-// router.post('/resend-otp', user.resendOtp);
+router.get('/activate', user.activate);
+router.post('/resend-otp', user.resendOtp);
 router.post('/auth/login', user.login);
 router.get('/auth/whoami', middlewares.auth, user.whoami);
 router.put('/auth/user', middlewares.auth, user.updateUser);
