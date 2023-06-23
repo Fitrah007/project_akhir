@@ -51,8 +51,15 @@ module.exports = {
       user.otp_expired = otpExpiration;
       await user.save();
 
-     // Mengirim email aktivasi
-     const activationLink = `${req.protocol}://${req.get('host')}/auth/activate/${user.id}`;
+      const payload = {
+        id: exist.id,
+        otp: otp
+      };
+
+      const token = await jwt.sign(payload, JWT_SECRET_KEY);
+
+    // Mengirim email aktivasi
+    const activationLink = `${req.protocol}://${req.get('host')}/activate?token=${token}`;
 
      // Send activation email with OTP
      const to = user.email;
@@ -84,11 +91,11 @@ module.exports = {
 
   activate: async (req, res) => {
     try {
-      const { email, otp } = req.body;
+      const { token } = req.query;
 
-      const { id } = req.params;
+      const data = await jwt.verify(token, JWT_SECRET_KEY);
 
-      const userId = await User.findByPk(id);
+      const userId = await User.findByPk(data.id);
       if (!userId) {
         return res.status(404).json({
           status: false,
@@ -97,7 +104,7 @@ module.exports = {
         });
       }
 
-      const user = await User.findOne({ where: { email } });
+      const user = await User.findOne({ where: {  id:data.id } });
       if (!user) {
         return res.status(400).json({
           status: false,
@@ -142,6 +149,74 @@ module.exports = {
     } catch (error) {
       throw error;
     }
+  },
+
+  resendOtp: async (req, res) => {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({
+        status: false,
+        message: "Email not found",
+        data: null,
+      });
+    }
+
+    const waitingPeriodMinutes = 3; // Set the waiting period in minutes
+    const waitingPeriodMillis = waitingPeriodMinutes * 60 * 1000; // Convert to milliseconds
+
+    const otpRecord = await User.findOne({ where: { email } });
+
+    if (otpRecord) {
+      const lastSentAt = otpRecord.updatedAt;
+      const currentTime = new Date();
+      const elapsedTime = currentTime - lastSentAt;
+
+      if (elapsedTime < waitingPeriodMillis) {
+        const remainingTime = waitingPeriodMillis - elapsedTime;
+        const remainingTimeMinutes = Math.ceil(remainingTime / (60 * 1000));
+
+        return res.status(429).json({
+          status: false,
+          message: `Please wait ${remainingTimeMinutes} minutes before resending the OTP.`,
+          data: null,
+        });
+      }
+    }
+
+    const otp = generateOTP(6);
+      const otpExpiration = moment().add(OTP_EXPIRATION_MINUTES, 'minutes').toDate();
+      user.otp = otp;
+      user.otp_expired = otpExpiration;
+      await user.save();
+
+      const payload = {
+        id: user.id,
+        otp: otp
+      };
+
+      const token = await jwt.sign(payload, JWT_SECRET_KEY);
+
+    // Mengirim email aktivasi
+    const activationLink = `${req.protocol}://${req.get('host')}/activate?token=${token}`;
+
+    // Send activation email with OTP
+    const to = email;
+    const subject = 'Activation Code';
+    const html = `
+      <h2>Activation Code</h2>
+      <p>Your activation code is: ${otp}</p>
+      <a href="${activationLink}" style="display: inline-block; padding: 10px 20px; background-color: green; color: white; text-decoration: none;">Click Here to Activate Your Account</a>
+    `;
+
+     await sendMail(to, subject, html);
+
+    return res.status(200).json({
+      status: true,
+      message: "OTP verification has been resent!",
+      data: null,
+    });
   },
 
   login: async (req, res) => {
