@@ -3,6 +3,8 @@ const { Airplane, Airline } = require('../db/models');
 module.exports = {
     getAll: async (req, res, next) => {
         try {
+            const { page = 1, per_page = 10 } = req.query
+            const offset = (page - 1) * per_page
             const airplane = await Airplane.findAll({
                 attributes: { exclude: ['createdAt', 'updatedAt'] },
                 include: [
@@ -11,9 +13,10 @@ module.exports = {
                         as: 'airline',
                         attributes: { exclude: ['createdAt', 'updatedAt'] }
                     }
-                ]
+                ],
+                limit: per_page,
+                offset: offset
             });
-
             return res.status(200).json({
                 status: true,
                 massage: 'success',
