@@ -1,5 +1,6 @@
-const { Ticket, Passenger, User, Flight, Transaction, Airport, Airplane, Airline } = require('../db/models');
+const { Ticket, Passenger, User, Flight, Transaction, Airport, Airport, Airplane, Airline } = require('../db/models');
 const { sendNotif } = require('../utils/notifications');
+const { sendMail, } = require('../utils/nodemailer');
 const moment = require('moment');
 
 // Generate kode tiket
@@ -182,6 +183,8 @@ module.exports = {
         }
       }
 
+      const airports = await Airport.findOne({where:{id:flight.arrival_airport_id}})
+
       // Kirim notifikasi konfirmasi pembayaran
       const paymentConfirmationMessage = `Payment confirmed for ticket ${ticket_code}.`;
 
@@ -214,14 +217,20 @@ module.exports = {
       //   is_read: false
       // })
 
-      // const to = user.email;
-      // const subject = 'Checkout success';
-      // const html = `
-      //   <h2>Checkout success</h2>
-      //   <p>Your Ticket code is: ${ticket_code}</p>
-      // `;
+      const to = user.email;
+      const subject = 'Checkout success';
+      const html = `
+        <h2>Checkout success</h2>
+        <p>There is detail for your ticket</p><table>
+        <tr><td>Ticket code</td><td>:</td><td><p>${transaction.ticket_code}</p></td></tr>
+        <tr><td>Payment method</td><td>:</td><td><p>${transaction.payment_method}</p></td></tr>
+        <tr><td>Payer name</td><td>:</td><td><p>${transaction.payer_name}</p></td></tr>
+        <tr><td>Number payment</td><td>:</td><td><p>${transaction.number_payment}</p></td></tr>
+        <tr><td>Payment date</td><td>:</td><td><p>${transaction.payment_date}</p></td></tr>
+        </tabel>
+      `;
 
-      // await sendMail(to, subject, html);
+      await sendMail(to, subject, html);
 
       return res.status(200).json({
         status: true,

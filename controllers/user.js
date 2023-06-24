@@ -52,7 +52,7 @@ module.exports = {
       await user.save();
 
       const payload = {
-        id: exist.id,
+        email: email,
         otp: otp
       };
 
@@ -62,7 +62,7 @@ module.exports = {
     const activationLink = `${req.protocol}://${req.get('host')}/activate?token=${token}`;
 
      // Send activation email with OTP
-     const to = user.email;
+     const to = email;
      const subject = 'Activation Code';
      const html = `
        <h2>Activation Code</h2>
@@ -95,16 +95,7 @@ module.exports = {
 
       const data = await jwt.verify(token, JWT_SECRET_KEY);
 
-      const userId = await User.findByPk(data.id);
-      if (!userId) {
-        return res.status(404).json({
-          status: false,
-          message: 'User not found!',
-          data: null
-        });
-      }
-
-      const user = await User.findOne({ where: {  id:data.id } });
+      const user = await User.findOne({ where: {  email: data.email } });
       if (!user) {
         return res.status(400).json({
           status: false,
@@ -120,8 +111,9 @@ module.exports = {
           data: null
         });
       }
+      console.log("otp = ", data.otp)
       console.log("otp = ", user.otp)
-      if (user.otp !== otp) {
+      if (user.otp != data.otp) {
         return res.status(400).json({
           status: false,
           message: 'Invalid OTP!',
@@ -139,7 +131,7 @@ module.exports = {
       }
 
 
-      await User.update({ isActivated: true }, { where: { email } });
+      await User.update({ isActivated: true }, { where: { email:data.email } });
 
       return res.status(200).json({
         status: true,
@@ -192,7 +184,7 @@ module.exports = {
       await user.save();
 
       const payload = {
-        id: user.id,
+        email: email,
         otp: otp
       };
 
