@@ -1,4 +1,4 @@
-const { Ticket, Passenger, User, Flight, Transaction, Airport, Airport, Airplane, Airline } = require('../db/models');
+const { Ticket, Passenger, User, Flight, Transaction, Airport, Airplane, Airline } = require('../db/models');
 const { sendNotif } = require('../utils/notifications');
 const { sendMail, } = require('../utils/nodemailer');
 const moment = require('moment');
