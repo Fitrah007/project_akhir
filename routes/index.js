@@ -20,15 +20,13 @@ router.get('/', (req, res, next) => {
 
 //cuma buat testing aja
 router.get('/auth/show', middlewares.auth, user.show);
-router.get('/ticket', ticket.showTicket);
-router.get('/transaction', ticket.showTransaction);
+router.get('/auth/whoami', middlewares.auth, user.whoami);
 
 //TODO: User
 router.post('/auth/register', user.register);
 router.get('/activate', user.activate);
 router.post('/resend-otp', user.resendOtp);
 router.post('/auth/login', user.login);
-router.get('/auth/whoami', middlewares.auth, user.whoami);
 router.put('/auth/user', middlewares.auth, user.updateUser);
 router.get('/auth/oauth', user.googleOauth2);
 
@@ -43,9 +41,11 @@ router.get('/notifications', notification.show);
 //TODO: Upload Avatar for user
 router.post('/auth/upload-profile', middlewares.auth, multer.single('profilePicture'), user.uploadProfile);
 
-//TODO: Booking and Checkout
+//TODO: Booking, Checkout, Ticket, and transaction
 router.post('/flight/booking', middlewares.auth, ticket.orderTicket);
 router.post('/flight/booking/checkout', middlewares.auth, ticket.checkoutTicket);
+router.get('/show/ticket', middlewares.auth, ticket.showTicket);
+router.get('/show/transaction', middlewares.auth, ticket.showTransaction);
 
 //TODO: Penerbangan
 router.get('/flight', flights.show);

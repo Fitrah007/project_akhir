@@ -1,4 +1,4 @@
-const { Ticket, Passenger, User, Flight, Transaction, Airport } = require('../db/models');
+const { Ticket, Passenger, User, Flight, Transaction, Airport, Airplane, Airline } = require('../db/models');
 const { sendNotif } = require('../utils/notifications');
 const { sendMail, } = require('../utils/nodemailer');
 const moment = require('moment');
@@ -244,26 +244,148 @@ module.exports = {
 
   showTicket: async (req, res) => {
     try {
-      const ticket = await Ticket.findAll();
+      const { id } = req.user;
+      const tickets = await Ticket.findAll({
+        where: { user_id: id },
+        attributes: { exclude: ['user_id'] },
+        include: [
+          {
+            model: Passenger,
+            as: 'passengers',
+            attributes: ['id', 'name'] // Include 'name' attribute for the passenger
+          },
+          {
+            model: Flight,
+            as: 'flights',
+            attributes: { exclude: ['id', 'airplane_id', 'airline_id', 'departure_airport_id', 'arrival_airport_id', 'departure_timestamp', 'arrival_timestamp', 'createdAt', 'updatedAt'] },
+            include: [
+              {
+                model: Airport,
+                as: 'departureAirport',
+                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+              },
+              {
+                model: Airport,
+                as: 'arrivalAirport',
+                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+              },
+              {
+                model: Airplane,
+                as: 'airplane',
+                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] },
+                include: [
+                  {
+                    model: Airline,
+                    as: 'airline',
+                    attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+                  }
+                ]
+              }
+            ],
+          },
+          {
+            model: Flight,
+            as: 'returnFlights',
+            attributes: { exclude: ['id', 'airplane_id', 'airline_id', 'departure_airport_id', 'arrival_airport_id', 'departure_timestamp', 'arrival_timestamp', 'createdAt', 'updatedAt'] },
+            include: [
+              {
+                model: Airport,
+                as: 'departureAirport',
+                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+              },
+              {
+                model: Airport,
+                as: 'arrivalAirport',
+                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+              },
+              {
+                model: Airplane,
+                as: 'airplane',
+                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] },
+                include: [
+                  {
+                    model: Airline,
+                    as: 'airline',
+                    attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+                  }
+                ]
+              }
+            ],
+          }
+        ]
+      });
+
+      const ticketMap = {};
+      tickets.forEach(ticket => {
+        const ticketCode = ticket.ticket_code;
+        const passengerId = ticket.passengers.id;
+        const passengerName = ticket.passengers.name;
+
+        if (!ticketMap[ticketCode]) {
+          ticketMap[ticketCode] = {
+            ticket_code: ticketCode,
+            order_date: ticket.order_date,
+            total_passenger: ticket.total_passenger,
+            passengers: [{
+              passenger_id: passengerId,
+              name: passengerName
+            }],
+            total_price: ticket.total_price,
+            payment_status: ticket.payment_status,
+            is_roundtrip: ticket.is_roundtrip,
+            flights: ticket.flights,
+            returnFlights: ticket.returnFlights
+          };
+        } else {
+          ticketMap[ticketCode].passengers.push({
+            passenger_id: passengerId,
+            name: passengerName
+          });
+        }
+      });
+
+      const ticketData = Object.values(ticketMap);
 
       return res.status(200).json({
         status: true,
         message: 'success',
-        data: ticket
+        data: ticketData
       });
     } catch (error) {
       res.status(500).json({ error: 'Terjadi kesalahan server', message: error.message });
     }
   },
 
+
   showTransaction: async (req, res) => {
     try {
-      const transaction = await Transaction.findAll();
+      const userId = req.user.id; // Mengambil ID pengguna dari req.user
+
+      const transactions = await Transaction.findAll({
+        include: [
+          {
+            model: Ticket,
+            as: 'tickets',
+            where: {
+              user_id: userId
+            },
+            include: [
+              {
+                model: User,
+                as: 'user',
+                where: {
+                  id: userId
+                }
+              }
+            ]
+          }
+        ]
+      });
 
       return res.status(200).json({
         status: true,
-        message: 'success',
-        data: transaction
+        message: 'Success',
+        data: transactions
       });
     } catch (error) {
       res.status(500).json({ error: 'Terjadi kesalahan server', message: error.message });

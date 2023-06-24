@@ -24,10 +24,8 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: 'ticket_code',
         as: 'transactions',
       });
-
-      Ticket.belongsToMany(models.Passenger, {
-        through: 'TicketPassenger',
-        foreignKey: 'ticket_id',
+      Ticket.belongsTo(models.Passenger, {
+        foreignKey: 'passenger_id',
         as: 'passengers',
       });
     }
