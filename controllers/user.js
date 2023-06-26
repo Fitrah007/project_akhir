@@ -104,40 +104,30 @@ module.exports = {
         });
       }
 
-      if (user.isActivated) {
-        return res.status(400).json({
-          status: false,
-          message: 'User is already activated!',
-          data: null
-        });
+      if (!user.isActivated) {
+        if (user.otp != data.otp) {
+          return res.status(400).json({
+            status: false,
+            message: 'Invalid OTP!',
+            data: null
+          });
+        }
+  
+        const now = moment();
+        if (now.isAfter(user.otp_expired)) {
+          return res.status(400).json({
+            status: false,
+            message: 'OTP has expired!',
+            data: null
+          });
+        }
+  
+  
+        await User.update({ isActivated: true }, { where: { email:data.email } });
+  
       }
-      console.log("otp = ", data.otp)
-      console.log("otp = ", user.otp)
-      if (user.otp != data.otp) {
-        return res.status(400).json({
-          status: false,
-          message: 'Invalid OTP!',
-          data: null
-        });
-      }
-
-      const now = moment();
-      if (now.isAfter(user.otp_expired)) {
-        return res.status(400).json({
-          status: false,
-          message: 'OTP has expired!',
-          data: null
-        });
-      }
-
-
-      await User.update({ isActivated: true }, { where: { email:data.email } });
-
-      return res.status(200).json({
-        status: true,
-        message: 'User activated successfully!',
-        data: null
-      });
+      
+      return res.redirect("https://final-project-mocha-zeta.vercel.app/otp");
     } catch (error) {
       throw error;
     }
