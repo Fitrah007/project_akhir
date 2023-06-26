@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Passenger.init({
+    passenger_type: DataTypes.STRING,
     title: DataTypes.STRING,
     name: DataTypes.STRING,
     family_name: DataTypes.STRING,

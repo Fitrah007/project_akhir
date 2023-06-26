@@ -279,12 +279,69 @@ module.exports = {
 
   show: async (req, res) => {
     try {
-      const {page = 1, per_page = 10} = req.query
-      const offset = (page -1 )* per_page
+      const { page = 1, per_page = 10, region } = req.query;
+      const offset = (page - 1) * per_page;
+
+      const filterOptions = {};
+
+      if (region) {
+        const airports = await Airport.findAll({
+          where: { region },
+          attributes: ['id']
+        });
+
+        const airportIds = airports.map((airport) => airport.id);
+        filterOptions.departure_airport_id = airportIds;
+      }
+
       const penerbangan = await Flight.findAll({
-        order: [
-          ['price', req.body.sort === 'desc' ? 'DESC' : 'ASC']
+        where: filterOptions,
+        attributes: {
+          exclude: [
+            'id',
+            'airplane_id',
+            'airline_id',
+            'departure_airport_id',
+            'arrival_airport_id',
+            'departure_timestamp',
+            'arrival_timestamp',
+            'createdAt',
+            'updatedAt'
+          ]
+        },
+        include: [
+          {
+            model: Airport,
+            as: 'departureAirport',
+            attributes: {
+              exclude: ['id', 'createdAt', 'updatedAt']
+            }
+          },
+          {
+            model: Airport,
+            as: 'arrivalAirport',
+            attributes: {
+              exclude: ['id', 'createdAt', 'updatedAt']
+            }
+          },
+          {
+            model: Airplane,
+            as: 'airplane',
+            attributes: {
+              exclude: ['id', 'createdAt', 'updatedAt']
+            },
+            include: [
+              {
+                model: Airline,
+                as: 'airline',
+                attributes: {
+                  exclude: ['id', 'createdAt', 'updatedAt']
+                }
+              }
+            ]
+          }
         ],
+        order: [['price', req.body.sort === 'desc' ? 'DESC' : 'ASC']],
         limit: per_page,
         offset: offset
       });

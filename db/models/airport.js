@@ -32,7 +32,8 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     iata_code: DataTypes.STRING,
     city: DataTypes.STRING,
-    country: DataTypes.STRING
+    country: DataTypes.STRING,
+    region:DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Airport',
