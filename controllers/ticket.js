@@ -63,10 +63,12 @@ module.exports = {
           data: existingTicket
         });
       }
+      console.log("ini harga : ", flight.price);
 
       const ticketPromises = dataPassenger.map(async (data) => {
         // Tambahkan data passenger
         const passenger = await Passenger.create({
+          passenger_type: data.passenger_type,
           title: data.title,
           name: data.name,
           family_name: data.family_name,
@@ -78,12 +80,23 @@ module.exports = {
           valid_until: new Date(data.valid_until)
         });
 
-        const passenger_id = passenger.id; // Simpan ID passenger
+        const passenger_id = passenger.id;
 
-        // Hitung total price tiket
-        let ticketPrice = total_passenger * flight.price;
-        if (is_roundtrip) {
-          ticketPrice += total_passenger * returnFlight.price;
+        let ticketPrice = 0;
+        const adultPassengers = dataPassenger.filter((passenger) => passenger.passenger_type === 'Adult');
+        const childPassengers = dataPassenger.filter((passenger) => passenger.passenger_type === 'Child');
+
+        if (data.passenger_type === 'Adult' || data.passenger_type === 'Child') {
+          ticketPrice += (adultPassengers.length * flight.price) + childPassengers.length * flight.price;
+
+          if (is_roundtrip) {
+            ticketPrice += (adultPassengers.length * flight.price) + childPassengers.length * flight.price;
+          }
+        }
+
+        // Check if passenger type is not "Baby" before adding the price
+        if (data.passenger_type !== 'Baby') {
+          ticketPrice += 300000;
         }
 
         // Buat tiket baru
@@ -183,7 +196,7 @@ module.exports = {
         }
       }
 
-      const airports = await Airport.findOne({where:{id:flight.arrival_airport_id}})
+      const airports = await Airport.findOne({ where: { id: flight.arrival_airport_id } })
 
       // Kirim notifikasi konfirmasi pembayaran
       const paymentConfirmationMessage = `Payment confirmed for ticket ${ticket_code}.`;
