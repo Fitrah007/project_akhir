@@ -63,12 +63,13 @@ module.exports = {
 
      // Send activation email with OTP
      const to = email;
-     const subject = 'Activation Code';
+     const subject = 'Activation Link';
      const html = `
-       <h2>Activation Code</h2>
-       <p>Your activation code is: ${otp}</p>
+       <h2>Activation Link</h2>
+       </br>
        <a href="${activationLink}" style="display: inline-block; padding: 10px 20px; background-color: green; color: white; text-decoration: none;">Click Here to Activate Your Account</a>
-     `;
+        
+       `;
 
       await sendMail(to, subject, html);
 
@@ -187,8 +188,8 @@ module.exports = {
     const to = email;
     const subject = 'Activation Code';
     const html = `
-      <h2>Activation Code</h2>
-      <p>Your activation code is: ${otp}</p>
+      <h2>Activation Link</h2>
+      </br>
       <a href="${activationLink}" style="display: inline-block; padding: 10px 20px; background-color: green; color: white; text-decoration: none;">Click Here to Activate Your Account</a>
     `;
 
