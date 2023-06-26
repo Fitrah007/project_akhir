@@ -3,366 +3,427 @@
     "name": "APT Pranoto Airport",
     "iata_code": "AAP",
     "city": "Samarinda",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "Abdul Rachman Saleh",
     "iata_code": "MLG",
     "city": "Malang",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "Achmad Yani",
     "iata_code": "SRG",
     "city": "Semarang",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "Adi Soemarmo",
     "iata_code": "SOC",
     "city": "Solo",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "Adi Sutjipto",
     "iata_code": "JOG",
     "city": "Yogyakarta",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "Betoambari",
     "iata_code": "BUW",
     "city": "Bau-Bau, Buton",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "Binaka",
     "iata_code": "GNS",
     "city": "Nias/Gunung Sitoli",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "Changi Intl",
     "iata_code": "SIN",
     "city": "Singapore",
-    "country": "Singapore"
+    "country": "Singapore",
+    "region": "Asia"
   },
   {
     "name": "Depati Amir",
     "iata_code": "PGK",
     "city": "Bangka / Pangkal Pinang",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "Domine Eduard Osok",
     "iata_code": "SOQ",
     "city": "Sorong",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "El Tari",
     "iata_code": "KOE",
     "city": "Kupang",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "Fatmawati Soekarno",
     "iata_code": "BKS",
     "city": "Bengkulu",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "Frans Kaisiepo",
     "iata_code": "BIK",
     "city": "Biak",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "Frans Seda/Wai Oti",
     "iata_code": "MOF",
     "city": "Maumere",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "Gusti Sjamsir Alam",
     "iata_code": "KBU",
     "city": "Kotabaru",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "H Hasan Aroeboesman",
     "iata_code": "ENE",
     "city": "Ende",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "H. Asan Airport",
     "iata_code": "SMQ",
     "city": "Sampit",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "H.A.S Hanandjoeddin Airport",
     "iata_code": "TJQ",
     "city": "Belitung / Tanjung Pandan",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "Halim Perdanakusuma International Airport",
     "iata_code": "HLP",
     "city": "Jakarta",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "Haluoleo",
     "iata_code": "KDI",
     "city": "Kendari",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "Hang Nadim",
     "iata_code": "BTH",
     "city": "Batam",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "Hasanuddin",
     "iata_code": "UPG",
     "city": "Makassar",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "Husein Sastranegara",
     "iata_code": "BDO",
     "city": "Bandung",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
-    "name": "Iskandar",
+    "name": "Chennai International Airport",
     "iata_code": "PKN",
-    "city": "Pangkalan Bun",
-    "country": "Indonesia"
+    "city": "Chennai",
+    "country": "India",
+    "region": "Asia"
   },
   {
     "name": "Jalaluddin",
     "iata_code": "GTO",
     "city": "Gorontalo",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "Juanda International Airport",
     "iata_code": "SUB",
     "city": "Surabaya",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
     "name": "Juwata International Airport",
     "iata_code": "TRK",
     "city": "Tarakan",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
-    "name": "Kalimarau",
+    "name": "Dubai International Airport",
     "iata_code": "BEJ",
-    "city": "Berau",
-    "country": "Indonesia"
+    "city": "Dubai",
+    "country": "Uni Emirat Arab",
+    "region": "Asia"
   },
   {
-    "name": "Komodo",
+    "name": "Beijing Capital International Airport",
     "iata_code": "LBJ",
-    "city": "Labuan Bajo",
-    "country": "Indonesia"
+    "city": "Beijing",
+    "country": "Tiongkok",
+    "region": "Asia"
   },
   {
     "name": "Kuala Lumpur International Airport",
     "iata_code": "KUL",
     "city": "Kuala Lumpur",
     "country": "Malaysia"
+,    "region": "Asia"
   },
   {
-    "name": "Kualanamu International Airport",
+    "name": "Indira Gandhi International Airport",
     "iata_code": "KNO",
-    "city": "Medan",
-    "country": "Indonesia"
+    "city": "Delhi",
+    "country": "India",
+    "region": "Asia"
   },
   {
-    "name": "Lombok Praya International Airport",
+    "name": "Suvarnabhumi Airport",
     "iata_code": "LOP",
-    "city": "Lombok",
-    "country": "Indonesia"
+    "city": "Bangkok",
+    "country": "Thailand",
+    "region": "Asia"
   },
   {
-    "name": "Minangkabau Intl",
+    "name": "Incheon International Airport",
     "iata_code": "PDG",
-    "city": "Padang",
-    "country": "Indonesia"
+    "city": "Seoul",
+    "country": "Korea Selatan",
+    "region": "Asia"
   },
   {
-    "name": "Mopah",
+    "name": "Narita International Airport",
     "iata_code": "MKQ",
-    "city": "Merauke",
-    "country": "Indonesia"
+    "city": "Tokyo",
+    "country": "Jepang",
+    "region": "Asia"
   },
   {
-    "name": "Mozes Kilangin",
+    "name": "Hong Kong International Airport",
     "iata_code": "TIM",
-    "city": "Timika",
-    "country": "Indonesia"
+    "city": "Hong Kong",
+    "country": "Hong Kong",
+    "region": "Asia"
   },
   {
-    "name": "Muhammad Salahuddin",
+    "name": "Changi Airport",
     "iata_code": "BMU",
-    "city": "Bima",
-    "country": "Indonesia"
+    "city": "Singapura",
+    "country": "Singapura",
+    "region": "Asia"
   },
   {
     "name": "Mutiara SIS Aljufri",
     "iata_code": "PLW",
     "city": "Palu",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
-    "name": "Nabire",
+    "name": "Kotoka International Airport",
     "iata_code": "NBX",
-    "city": "Nabire",
-    "country": "Indonesia"
+    "city": "Accra",
+    "country": "Ghana",
+    "region": "Afrika"
   },
   {
-    "name": "Ngurah Rai International Airport",
+    "name": "Mohammed V International Airport",
     "iata_code": "DPS",
-    "city": "Bali / Denpasar",
-    "country": "Indonesia"
+    "city": "Casablanca",
+    "country": "Maroko",
+    "region": "Afrika"
   },
   {
-    "name": "Pattimura Airport",
+    "name": "Jomo Kenyatta International Airport",
     "iata_code": "AMQ",
-    "city": "Ambon",
-    "country": "Indonesia"
+    "city": "Nairobi",
+    "country": "Kenya",
+    "region": "Afrika"
   },
   {
-    "name": "Penang Intl",
+    "name": "Cape Town International Airport",
     "iata_code": "PEN",
-    "city": "Penang",
-    "country": "Malaysia"
+    "city": "Cape Town",
+    "country": "Afrika Selatan",
+    "region": "Afrika"
   },
   {
-    "name": "Radin Inten II Airport",
+    "name": "Cairo International Airport",
     "iata_code": "TKG",
-    "city": "Bandar Lampung",
-    "country": "Indonesia"
+    "city": "Kairo",
+    "country": "Mesir",
+    "region": "Afrika"
   },
   {
-    "name": "Rahadi Usman",
+    "name": "O.R. Tambo International Airport",
     "iata_code": "KTG",
-    "city": "Ketapang",
-    "country": "Indonesia"
+    "city": "Johannesburg",
+    "country": "Afrika Selatan",
+    "region": "Afrika"
   },
   {
-    "name": "Raja Haji Fisabilillah International Airport",
+    "name": "Sydney Kingsford Smith Airport",
     "iata_code": "TNJ",
-    "city": "Bintan / Tanjung Pinang",
-    "country": "Indonesia"
+    "city": "Sydney",
+    "country": "Australia",
+    "region": "Australia"
   },
   {
-    "name": "Rendani",
+    "name": "Melbourne Tullamarine Airport",
     "iata_code": "MKW",
-    "city": "Manokwari",
-    "country": "Indonesia"
+    "city": "Melbourne",
+    "country": "Australia",
+    "region": "Australia"
   },
   {
-    "name": "Sam Ratulangi",
+    "name": "Brisbane Airport",
     "iata_code": "MDC",
-    "city": "Manado",
-    "country": "Indonesia"
+    "city": "Brisbane",
+    "country": "Australia",
+    "region": "Australia"
   },
   {
-    "name": "Sentani",
+    "name": "Perth Airport",
     "iata_code": "DJJ",
-    "city": "Jayapura",
-    "country": "Indonesia"
+    "city": "Perth",
+    "country": "Australia",
+    "region": "Australia"
   },
   {
-    "name": "Sepinggan",
+    "name": "Adelaide Airport",
     "iata_code": "BPN",
-    "city": "Balikpapan",
-    "country": "Indonesia"
+    "city": "Adelaide",
+    "country": "Australia",
+    "region": "Australia"
   },
   {
-    "name": "Soa",
+    "name": "Gold Coast Airport",
     "iata_code": "BJW",
-    "city": "Bajawa",
-    "country": "Indonesia"
+    "city": "Gold Coast",
+    "country": "Australia",
+    "region": "Australia"
   },
   {
     "name": "Soekarno Hatta International Airport",
     "iata_code": "CGK",
     "city": "Jakarta",
-    "country": "Indonesia"
+    "country": "Indonesia",
+    "region": "Asia"
   },
   {
-    "name": "Sultan Babullah",
+    "name": "London Heathrow Airport",
     "iata_code": "TTE",
-    "city": "Ternate",
-    "country": "Indonesia"
+    "city": "London",
+    "country": "Inggris",
+    "region": "Eropa Barat"
   },
   {
-    "name": "Sultan Iskandarmuda",
+    "name": "Frankfurt Airport",
     "iata_code": "BTJ",
-    "city": "Banda Aceh",
-    "country": "Indonesia"
+    "city": "Frankfurt",
+    "country": "Jerman",
+    "region": "Eropa Tengah"
   },
   {
-    "name": "Sultan Mahmud Badaruddin II",
+    "name": "Leonardo da Vinci-Fiumicino Airport",
     "iata_code": "PLM",
-    "city": "Palembang",
-    "country": "Indonesia"
+    "city": "Roma",
+    "country": "Italia",
+    "region": "Eropa Selatan"
   },
   {
-    "name": "Sultan Syarif Kasim II",
+    "name": "Barcelona-El Prat Airport",
     "iata_code": "PKU",
-    "city": "Pekanbaru",
-    "country": "Indonesia"
+    "city": "Barcelona",
+    "country": "Spanyol",
+    "region": "Eropa Selatan"
   },
   {
-    "name": "Sultan Thaha",
+    "name": "Amsterdam Airport Schiphol",
     "iata_code": "DJB",
-    "city": "Jambi",
-    "country": "Indonesia"
+    "city": "Amsterdam",
+    "country": "Belanda",
+    "region": "Eropa Utara"
   },
   {
-    "name": "Supadio",
+    "name": "Hartsfield-Jackson Atlanta International Airport",
     "iata_code": "PNK",
-    "city": "Pontianak",
-    "country": "Indonesia"
+    "city": "Atlanta",
+    "country": "Amerika Serikat",
+    "region": "Amerika Utara"
   },
   {
-    "name": "Syamsudin Noor",
+    "name": "Los Angeles International Airport",
     "iata_code": "BDJ",
-    "city": "Banjarmasin",
-    "country": "Indonesia"
+    "city": "Los Angeles",
+    "country": "Amerika Serikat",
+    "region": "Amerika Utara"
   },
   {
-    "name": "Tambolaka Airport",
+    "name": "O'Hare International Airport",
     "iata_code": "TMC",
-    "city": "Waikabubak",
-    "country": "Indonesia"
+    "city": "Chicago",
+    "country": "Amerika Serikat",
+    "region": "Amerika Utara"
   },
   {
-    "name": "Tjilik Riwut",
+    "name": "Dallas/Fort Worth International Airport",
     "iata_code": "PKY",
-    "city": "Palangkaraya",
-    "country": "Indonesia"
+    "city": "Dallas",
+    "country": "Amerika Serikat",
+    "region": "Amerika Utara"
   },
   {
-    "name": "Wamena",
+    "name": "Denver International Airport",
     "iata_code": "WMX",
-    "city": "Wamena",
-    "country": "Indonesia"
+    "city": "Denver",
+    "country": "Amerika Serikat",
+    "region": "Amerika Utara"
   },
   {
-    "name": "Yogyakarta International Airport",
+    "name": "John F. Kennedy International Airport",
     "iata_code": "YIA",
-    "city": "Yogyakarta",
-    "country": "Indonesia"
+    "city": "New York",
+    "country": "Amerika Serikat",
+    "region": "Amerika Utara"
   }
 ]
