@@ -279,7 +279,7 @@ module.exports = {
 
   show: async (req, res) => {
     try {
-      const { page = 1, per_page = 10, region } = req.query;
+      const { page = 1, per_page = 10, region, sort } = req.query;
       const offset = (page - 1) * per_page;
 
       const filterOptions = {};
@@ -292,6 +292,12 @@ module.exports = {
 
         const airportIds = airports.map((airport) => airport.id);
         filterOptions.departure_airport_id = airportIds;
+      }
+
+      const orderOptions = [['id', 'ASC']]; // Default order by ID
+
+      if (sort && sort === 'price') {
+        orderOptions.unshift(['price', 'ASC']); // Prepend price sorting option
       }
 
       const penerbangan = await Flight.findAll({
@@ -341,7 +347,7 @@ module.exports = {
             ]
           }
         ],
-        order: [['price', req.body.sort === 'desc' ? 'DESC' : 'ASC']],
+        order: orderOptions,
         limit: per_page,
         offset: offset
       });
