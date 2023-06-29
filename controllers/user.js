@@ -446,8 +446,13 @@ module.exports = {
   },
 
   resetPasswordPage: (req, res) => {
-    const { token } = req.query;
-    return res.redirect("https://final-project-mocha-zeta.vercel.app/reset-pass", { message: null, token });
+    try {
+      const { token } = req.query;
+      return res.redirect("https://final-project-mocha-zeta.vercel.app/reset-pass", { message: null, token });
+      
+    } catch (err) {
+      throw err
+    }
   },
 
   resetPassword: async (req, res) => {
