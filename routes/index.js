@@ -33,7 +33,7 @@ router.get('/auth/oauth', user.googleOauth2);
 //TODO: reset password
 router.get('/reset-password', user.resetPasswordPage);
 router.post('/auth/forgot-password', user.forgotPassword);
-router.post('/auth/reset-password', user.resetPassword);
+router.put('/auth/reset-password', user.resetPassword);
 
 //TODO: notif
 router.get('/notifications', notification.show);
