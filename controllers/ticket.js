@@ -22,7 +22,7 @@ module.exports = {
   orderTicket: async (req, res) => {
     try {
       const { id } = req.user;
-      const { total_passenger, flight_id, return_flight_id, dataPassenger, is_roundtrip } = req.body;
+      const { total_passenger, departure_flight_id, return_flight_id, dataPassenger, is_roundtrip } = req.body;
 
       const user = await User.findOne({ where: { id } });
 
@@ -35,7 +35,7 @@ module.exports = {
       }
 
       // Cek apakah flight tersedia
-      const flight = await Flight.findOne({ where: { id: flight_id } });
+      const flight = await Flight.findOne({ where: { id: departure_flight_id } });
 
       if (!flight) {
         return res.status(404).json({ error: 'Flight tidak ditemukan.' });
@@ -107,7 +107,7 @@ module.exports = {
           total_price: ticketPrice,
           user_id: user.id,
           passenger_id: passenger_id,
-          flight_id,
+          flight_id: departure_flight_id,
           return_flight_id: is_roundtrip ? return_flight_id : null,
           is_roundtrip
         });
@@ -181,7 +181,7 @@ module.exports = {
         payment_date: new Date()
       });
 
-      const flight = await Flight.findOne({ where: { id: ticket.flight_id } });
+      const flight = await Flight.findOne({ where: { id: ticket.departure_flight_id } });
 
       if (transaction) {
         // update status pembayaran di model tiket
@@ -265,32 +265,32 @@ module.exports = {
           {
             model: Passenger,
             as: 'passengers',
-            attributes: ['id', 'name'] // Include 'name' attribute for the passenger
+            attributes: ['id', 'name', 'passenger_type']
           },
           {
             model: Flight,
             as: 'flights',
-            attributes: { exclude: ['id', 'airplane_id', 'airline_id', 'departure_airport_id', 'arrival_airport_id', 'departure_timestamp', 'arrival_timestamp', 'createdAt', 'updatedAt'] },
+            attributes: { exclude: ['airplane_id', 'airline_id', 'departure_airport_id', 'arrival_airport_id', 'departure_timestamp', 'arrival_timestamp', 'createdAt', 'updatedAt'] },
             include: [
               {
                 model: Airport,
                 as: 'departureAirport',
-                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+                attributes: { exclude: ['createdAt', 'updatedAt'] }
               },
               {
                 model: Airport,
                 as: 'arrivalAirport',
-                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+                attributes: { exclude: ['createdAt', 'updatedAt'] }
               },
               {
                 model: Airplane,
                 as: 'airplane',
-                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] },
+                attributes: { exclude: ['createdAt', 'updatedAt'] },
                 include: [
                   {
                     model: Airline,
                     as: 'airline',
-                    attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+                    attributes: { exclude: ['createdAt', 'updatedAt'] }
                   }
                 ]
               }
@@ -299,27 +299,27 @@ module.exports = {
           {
             model: Flight,
             as: 'returnFlights',
-            attributes: { exclude: ['id', 'airplane_id', 'airline_id', 'departure_airport_id', 'arrival_airport_id', 'departure_timestamp', 'arrival_timestamp', 'createdAt', 'updatedAt'] },
+            attributes: { exclude: ['airplane_id', 'airline_id', 'departure_airport_id', 'arrival_airport_id', 'departure_timestamp', 'arrival_timestamp', 'createdAt', 'updatedAt'] },
             include: [
               {
                 model: Airport,
                 as: 'departureAirport',
-                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+                attributes: { exclude: ['createdAt', 'updatedAt'] }
               },
               {
                 model: Airport,
                 as: 'arrivalAirport',
-                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+                attributes: { exclude: ['createdAt', 'updatedAt'] }
               },
               {
                 model: Airplane,
                 as: 'airplane',
-                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] },
+                attributes: { exclude: ['createdAt', 'updatedAt'] },
                 include: [
                   {
                     model: Airline,
                     as: 'airline',
-                    attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+                    attributes: { exclude: ['createdAt', 'updatedAt'] }
                   }
                 ]
               }
@@ -333,6 +333,7 @@ module.exports = {
         const ticketCode = ticket.ticket_code;
         const passengerId = ticket.passengers.id;
         const passengerName = ticket.passengers.name;
+        const passengerType = ticket.passengers.passenger_type;
 
         if (!ticketMap[ticketCode]) {
           ticketMap[ticketCode] = {
@@ -341,7 +342,8 @@ module.exports = {
             total_passenger: ticket.total_passenger,
             passengers: [{
               passenger_id: passengerId,
-              name: passengerName
+              name: passengerName,
+              passenger_type: passengerType
             }],
             total_price: ticket.total_price,
             payment_status: ticket.payment_status,
@@ -352,7 +354,8 @@ module.exports = {
         } else {
           ticketMap[ticketCode].passengers.push({
             passenger_id: passengerId,
-            name: passengerName
+            name: passengerName,
+            passenger_type: passengerType
           });
         }
       });
