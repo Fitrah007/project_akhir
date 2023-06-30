@@ -49,6 +49,7 @@ router.get('/show/transaction', middlewares.auth, ticket.showTransaction);
 
 //TODO: Penerbangan
 router.get('/flight', flights.show);
+router.get('/flight/:id', flights.getOne);
 router.post('/flight/search/oneway', flights.oneWay);
 router.post('/flight/search/twoway', flights.twoWay);
 
