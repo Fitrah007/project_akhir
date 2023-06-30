@@ -348,10 +348,10 @@ module.exports = {
         filterOptions.departure_airport_id = airportIds;
       }
 
-      const orderOptions = [['ASC']]; // Default order by ID
+      const orderOptions = [['id', 'ASC']];
 
       if (sort && sort === 'price') {
-        orderOptions.unshift(['price', 'ASC']); // Prepend price sorting option
+        orderOptions.unshift(['price', 'ASC']);
       }
 
       const penerbangan = await Flight.findAll({
