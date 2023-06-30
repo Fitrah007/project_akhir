@@ -1,6 +1,4 @@
 const { Flight, Airport, Airplane, Airline, Schedule } = require('../db/models');
-// const Validator = require('fastest-validator');
-// const v = new Validator();
 
 module.exports = {
   // Fungsi pencarian penerbangan satu arah
@@ -266,6 +264,62 @@ module.exports = {
           departureFlights,
           returnFlights
         }
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        status: false,
+        message: 'Internal Server Error',
+        data: null
+      });
+    }
+  },
+
+  getOne: async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const flights = await Flight.findOne({
+        where: {id},
+        attributes: { exclude: ['id', 'airplane_id', 'airline_id', 'departure_airport_id', 'arrival_airport_id', 'departure_timestamp', 'arrival_timestamp', 'createdAt', 'updatedAt'] },
+        include: [
+          {
+            model: Airport,
+            as: 'departureAirport',
+            attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+          },
+          {
+            model: Airport,
+            as: 'arrivalAirport',
+            attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+          },
+          {
+            model: Airplane,
+            as: 'airplane',
+            attributes: { exclude: ['id', 'createdAt', 'updatedAt'] },
+            include: [
+              {
+                model: Airline,
+                as: 'airline',
+                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+              }
+            ]
+          }
+        ]
+      });
+
+      if (!flights) {
+        return res.status(400).json({
+          status: false,
+          message: 'flights tidak ditemukan!',
+          data: null
+        });
+      }
+
+      return res.status(200).json({
+        status: true,
+        message: 'success',
+        data: flights
       });
     } catch (error) {
       console.error(error);
