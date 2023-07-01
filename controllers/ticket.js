@@ -165,7 +165,7 @@ module.exports = {
       }
 
       // Cek status pembayaran tiket
-      if (ticket.payment_status) {
+      if (ticket.payment_status === "Dibayar") {
         return res.status(400).json({
           status: false,
           message: 'Ticket has already been paid!',
