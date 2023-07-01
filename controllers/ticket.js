@@ -185,7 +185,7 @@ module.exports = {
 
       if (transaction) {
         // update status pembayaran di model tiket
-        await Ticket.update({ payment_status: true }, { where: { ticket_code: transaction.ticket_code } });
+        await Ticket.update({ payment_status: "Dibayar" }, { where: { ticket_code: transaction.ticket_code } });
 
         // Mengurangi available_passenger di model Flight
         if (flight) {
