@@ -150,11 +150,20 @@ module.exports = {
   },
 
   checkoutTicket: async (req, res) => {
-    const { id } = req.user;
-    const { ticket_code, payment_method, payer_name, number_payment } = req.body;
-
     try {
-      const user = await User.findOne({ where: { id } })
+      const { id } = req.user;
+
+      const { ticket_code, payment_method, payer_name, number_payment } = req.body;
+
+      const user = await User.findOne({ where: { id } });
+      if (!user) {
+        return res.status(404).json({
+          status: false,
+          message: 'Belum login',
+          data: null
+        });
+      }
+
       const ticket = await Ticket.findOne({ where: { ticket_code } });
       if (!ticket) {
         return res.status(404).json({
@@ -181,7 +190,7 @@ module.exports = {
         payment_date: new Date()
       });
 
-      const flight = await Flight.findOne({ where: { id: ticket.departure_flight_id } });
+      const flight = await Flight.findOne({ where: { id: ticket.flight_id } });
 
       if (transaction) {
         // update status pembayaran di model tiket
@@ -223,12 +232,14 @@ module.exports = {
         ]);
       }, reminderTimeout);
 
-      // const notification = await Notification.create({
-      //   title:"Checkout berhasil",
-      //   description:"Selamat anda telah berhasil melakukan checkout",
-      //   user_id: user.id,
-      //   is_read: false
-      // })
+      sendNotif([
+        {
+          title: "Checkout berhasil",
+          description: "Selamat anda telah berhasil melakukan checkout",
+          user_id: user.id,
+          is_read: false
+        },
+      ]);
 
       const to = user.email;
       const subject = 'Checkout success';
