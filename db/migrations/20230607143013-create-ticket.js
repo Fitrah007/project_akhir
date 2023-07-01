@@ -22,8 +22,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       payment_status: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false,
+        type: Sequelize.STRING,
+        defaultValue: "Belum Bayar",
       },
       user_id: {
         type: Sequelize.INTEGER
