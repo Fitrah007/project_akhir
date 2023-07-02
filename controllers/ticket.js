@@ -74,7 +74,7 @@ module.exports = {
           family_name: data.family_name,
           birth: new Date(data.birth),
           nationality: data.nationality,
-          ktp: data.ktp,
+          telp: data.telp,
           passpor: data.passpor,
           origin_county: data.origin_county,
           valid_until: new Date(data.valid_until)

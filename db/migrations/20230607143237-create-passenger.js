@@ -27,7 +27,7 @@ module.exports = {
       nationality: {
         type: Sequelize.STRING
       },
-      ktp: {
+      telp: {
         type: Sequelize.STRING
       },
       passpor: {
