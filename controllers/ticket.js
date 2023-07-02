@@ -83,21 +83,21 @@ module.exports = {
         const passenger_id = passenger.id;
 
         let ticketPrice = 0;
-        const adultPassengers = dataPassenger.filter((passenger) => passenger.passenger_type === 'Adult');
-        const childPassengers = dataPassenger.filter((passenger) => passenger.passenger_type === 'Child');
+        // const adultPassengers = dataPassenger.filter((passenger) => passenger.passenger_type === 'Adult');
+        // const childPassengers = dataPassenger.filter((passenger) => passenger.passenger_type === 'Child');
 
-        if (data.passenger_type === 'Adult' || data.passenger_type === 'Child') {
-          ticketPrice += (adultPassengers.length * flight.price) + childPassengers.length * flight.price;
+        // if (data.passenger_type === 'Adult' || data.passenger_type === 'Child') {
+        //   ticketPrice += (adultPassengers.length * flight.price) + childPassengers.length * flight.price;
 
-          if (is_roundtrip) {
-            ticketPrice += (adultPassengers.length * flight.price) + childPassengers.length * flight.price;
-          }
-        }
+        //   if (is_roundtrip) {
+        //     ticketPrice += (adultPassengers.length * flight.price) + childPassengers.length * flight.price;
+        //   }
+        // }
 
-        // Check if passenger type is not "Baby" before adding the price
-        if (data.passenger_type !== 'Baby') {
-          ticketPrice += 300000;
-        }
+        // // Check if passenger type is not "Baby" before adding the price
+        // if (data.passenger_type !== 'Baby') {
+        //   ticketPrice += 300000;
+        // }
 
         // Buat tiket baru
         const tiket = await Ticket.create({
