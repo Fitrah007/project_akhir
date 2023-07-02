@@ -142,7 +142,9 @@ module.exports = {
       res.status(201).json({
         status: true,
         message: 'Ticket berhasil dipesan',
-        data: tiket
+        data: {
+          ticket_code: tiket[0].ticket_code
+        }
       });
     } catch (error) {
       res.status(500).json({ error: 'Terjadi kesalahan server', message: error.message });
