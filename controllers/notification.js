@@ -32,7 +32,8 @@ module.exports = {
 
     show: async (req, res) => {
         try {
-            const notif = await Notification.findAll();
+            const { id } = req.user;
+            const notif = await Notification.findAll({where: { user_id: id }});
 
             return res.status(200).json({
                 status: true,

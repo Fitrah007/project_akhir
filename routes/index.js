@@ -36,7 +36,7 @@ router.post('/auth/forgot-password', user.forgotPassword);
 router.put('/auth/reset-password', user.resetPassword);
 
 //TODO: notif
-router.get('/notifications', notification.show);
+router.get('/notifications', middlewares.auth, notification.show);
 
 //TODO: Upload Avatar for user
 router.post('/auth/upload-profile', middlewares.auth, multer.single('profilePicture'), user.uploadProfile);
