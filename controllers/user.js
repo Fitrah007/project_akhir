@@ -448,7 +448,7 @@ module.exports = {
   resetPasswordPage: (req, res) => {
     try {
       const { token } = req.query;
-      return res.redirect(`https://final-project-mocha-zeta.vercel.app/reset-pass?token=${token}`);
+      return res.redirect(`https://final-project-mocha-zeta.vercel.app/reset-pass`, { message: null, token });
       
     } catch (err) {
       throw err
@@ -461,7 +461,9 @@ module.exports = {
 
       const { token } = req.query;
       if (!token) {
-        return res.render('auth/reset-password', { message: 'invalid token!', token });
+        return res.status(404).json({
+          error: "token gaada"
+        })
       }
       if (password != confirm_new_password) {
         return res.render('auth/reset-password', { message: 'confirm password does not match!', token });
