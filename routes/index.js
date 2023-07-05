@@ -45,7 +45,7 @@ router.post('/auth/upload-profile', middlewares.auth, multer.single('profilePict
 router.post('/flight/booking', middlewares.auth, ticket.orderTicket);
 router.post('/flight/booking/checkout', middlewares.auth, ticket.checkoutTicket);
 router.get('/show/ticket', middlewares.auth, ticket.showTicket);
-router.get('/show/transaction', middlewares.auth, ticket.showTransaction);
+router.get('/get/ticket/:ticket_code', middlewares.auth, ticket.getOneTicket);
 
 //TODO: Penerbangan
 router.get('/flight', flights.show);
