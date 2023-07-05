@@ -18,6 +18,26 @@ async function generateKodeTiket() {
   return `${year}${month}${day}${randomString}${ticketNumber}`;
 }
 
+function calculateTicketPrice(flightPrice, passengers, isRoundtrip) {
+  let totalPassenger = 0;
+  let totalPrice = 0;
+
+  for (const passenger of passengers) {
+    if (passenger.passenger_type === 'Adult' || passenger.passenger_type === 'Child') {
+      totalPassenger += 1;
+      totalPrice += flightPrice;
+    }
+  }
+
+  totalPrice += 300000;
+
+  if (isRoundtrip) {
+    totalPrice *= 2; 
+  }
+
+  return totalPrice;
+}
+
 module.exports = {
   orderTicket: async (req, res) => {
     try {
@@ -65,6 +85,8 @@ module.exports = {
       }
       console.log("ini harga : ", flight.price);
 
+      const ticketPrice = calculateTicketPrice(flight.price, dataPassenger, is_roundtrip);
+
       const ticketPromises = dataPassenger.map(async (data) => {
         // Tambahkan data passenger
         const passenger = await Passenger.create({
@@ -82,22 +104,6 @@ module.exports = {
 
         const passenger_id = passenger.id;
 
-        let ticketPrice = 0;
-        // const adultPassengers = dataPassenger.filter((passenger) => passenger.passenger_type === 'Adult');
-        // const childPassengers = dataPassenger.filter((passenger) => passenger.passenger_type === 'Child');
-
-        // if (data.passenger_type === 'Adult' || data.passenger_type === 'Child') {
-        //   ticketPrice += (adultPassengers.length * flight.price) + childPassengers.length * flight.price;
-
-        //   if (is_roundtrip) {
-        //     ticketPrice += (adultPassengers.length * flight.price) + childPassengers.length * flight.price;
-        //   }
-        // }
-
-        // // Check if passenger type is not "Baby" before adding the price
-        // if (data.passenger_type !== 'Baby') {
-        //   ticketPrice += 300000;
-        // }
 
         // Buat tiket baru
         const tiket = await Ticket.create({
@@ -143,7 +149,9 @@ module.exports = {
         status: true,
         message: 'Ticket berhasil dipesan',
         data: {
-          ticket_code: tiket[0].ticket_code
+          ticket_code: tiket[0].ticket_code,
+          ini_harga_penerbangan: flight.price,
+          total_price: tiket[0].total_price
         }
       });
     } catch (error) {
@@ -386,38 +394,124 @@ module.exports = {
   },
 
 
-  showTransaction: async (req, res) => {
+  getOneTicket: async (req, res) => {
     try {
-      const userId = req.user.id; // Mengambil ID pengguna dari req.user
-
-      const transactions = await Transaction.findAll({
+      const { id } = req.user;
+      const { ticket_code } = req.params;
+      const tickets = await Ticket.findAll({
+        where: { 
+          user_id: id,
+          ticket_code
+         },
+        attributes: { exclude: ['user_id'] },
         include: [
           {
-            model: Ticket,
-            as: 'tickets',
-            where: {
-              user_id: userId
-            },
+            model: Passenger,
+            as: 'passengers',
+            attributes: ['id', 'name', 'passenger_type']
+          },
+          {
+            model: Flight,
+            as: 'flights',
+            attributes: { exclude: ['airplane_id', 'airline_id', 'departure_airport_id', 'arrival_airport_id', 'departure_timestamp', 'arrival_timestamp', 'createdAt', 'updatedAt'] },
             include: [
               {
-                model: User,
-                as: 'user',
-                where: {
-                  id: userId
-                }
+                model: Airport,
+                as: 'departureAirport',
+                attributes: { exclude: ['createdAt', 'updatedAt'] }
+              },
+              {
+                model: Airport,
+                as: 'arrivalAirport',
+                attributes: { exclude: ['createdAt', 'updatedAt'] }
+              },
+              {
+                model: Airplane,
+                as: 'airplane',
+                attributes: { exclude: ['createdAt', 'updatedAt'] },
+                include: [
+                  {
+                    model: Airline,
+                    as: 'airline',
+                    attributes: { exclude: ['createdAt', 'updatedAt'] }
+                  }
+                ]
               }
-            ]
+            ],
+          },
+          {
+            model: Flight,
+            as: 'returnFlights',
+            attributes: { exclude: ['airplane_id', 'airline_id', 'departure_airport_id', 'arrival_airport_id', 'departure_timestamp', 'arrival_timestamp', 'createdAt', 'updatedAt'] },
+            include: [
+              {
+                model: Airport,
+                as: 'departureAirport',
+                attributes: { exclude: ['createdAt', 'updatedAt'] }
+              },
+              {
+                model: Airport,
+                as: 'arrivalAirport',
+                attributes: { exclude: ['createdAt', 'updatedAt'] }
+              },
+              {
+                model: Airplane,
+                as: 'airplane',
+                attributes: { exclude: ['createdAt', 'updatedAt'] },
+                include: [
+                  {
+                    model: Airline,
+                    as: 'airline',
+                    attributes: { exclude: ['createdAt', 'updatedAt'] }
+                  }
+                ]
+              }
+            ],
           }
         ]
       });
 
+      const ticketMap = {};
+      tickets.forEach(ticket => {
+        const ticketCode = ticket.ticket_code;
+        const passengerId = ticket.passengers.id;
+        const passengerName = ticket.passengers.name;
+        const passengerType = ticket.passengers.passenger_type;
+
+        if (!ticketMap[ticketCode]) {
+          ticketMap[ticketCode] = {
+            ticket_code: ticketCode,
+            order_date: ticket.order_date,
+            total_passenger: ticket.total_passenger,
+            passengers: [{
+              passenger_id: passengerId,
+              name: passengerName,
+              passenger_type: passengerType
+            }],
+            total_price: ticket.total_price,
+            payment_status: ticket.payment_status,
+            is_roundtrip: ticket.is_roundtrip,
+            flights: ticket.flights,
+            returnFlights: ticket.returnFlights
+          };
+        } else {
+          ticketMap[ticketCode].passengers.push({
+            passenger_id: passengerId,
+            name: passengerName,
+            passenger_type: passengerType
+          });
+        }
+      });
+
+      const ticketData = Object.values(ticketMap);
+
       return res.status(200).json({
         status: true,
-        message: 'Success',
-        data: transactions
+        message: 'success',
+        data: ticketData
       });
     } catch (error) {
       res.status(500).json({ error: 'Terjadi kesalahan server', message: error.message });
     }
-  }
+  },
 };
